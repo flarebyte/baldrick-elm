@@ -7,34 +7,19 @@ const capitalize = (value: string) =>
 const libBadges = (core: CoreProject): Badge[] => {
   const always: Badge[] = [
     {
-      text: 'npm',
-      imageUrl: `https://img.shields.io/npm/v/${core.name}`,
+      text: 'Status of direct dependencies',
+      imageUrl: `https://reiner-dolp.github.io/elm-badges/${core.githubAccount}/${core.name}/dependencies.svg`,
       position: 'top',
     },
     {
-      text: 'Build status',
-      imageUrl: `https://github.com/${core.githubAccount}/${core.name}/actions/workflows/main.yml/badge.svg`,
+      text: 'License of the package',
+      imageUrl: `https://reiner-dolp.github.io/elm-badges/${core.githubAccount}/${core.name}/license.svg`,
       position: 'top',
     },
     {
-      text: 'npm bundle size',
-      imageUrl: `https://img.shields.io/bundlephobia/min/${core.name}`,
+      text: 'Latest version of the package',
+      imageUrl: `https://reiner-dolp.github.io/elm-badges/${core.githubAccount}/${core.name}/version.svg`,
       position: 'top',
-    },
-    {
-      text: 'npm type definitions',
-      imageUrl: `https://img.shields.io/npm/types/${core.name}`,
-      position: 'bottom',
-    },
-    {
-      text: 'node-current',
-      imageUrl: `https://img.shields.io/node/v/${core.name}`,
-      position: 'bottom',
-    },
-    {
-      text: 'NPM',
-      imageUrl: `https://img.shields.io/npm/l/${core.name}`,
-      position: 'bottom',
     },
   ];
   const codacy: Badge[] = core.codacyId
@@ -51,7 +36,9 @@ const libBadges = (core: CoreProject): Badge[] => {
 };
 
 const keepSections = (section: MdSection): boolean =>
-  ['Usage', 'Advanced use', 'Acknowledgements'].includes(section.title);
+  ['Usage', 'Advanced use', 'Acknowledgements', 'Model'].includes(
+    section.title
+  );
 
 const docAndLinks = (core: CoreProject): MdSection => ({
   title: 'Documentation and links',
@@ -70,31 +57,15 @@ const docAndLinks = (core: CoreProject): MdSection => ({
 });
 
 const installSection = (core: CoreProject): MdSection => {
-  const isCli = core.feature.includes('cli');
-  const bodyLib = ['```bash', `yarn add ${core.name}`, '```'];
-  const bodyCli = [
+  const body = [
     '```bash',
-    `yarn global add ${core.name}`,
-    `${core.bin} --help`,
-    '```',
-    'Or alternatively run it:',
-    '```bash',
-    `npx ${core.name} --help`,
-    '```',
-    'If you want to tun the latest version from github. Mostly useful for dev:',
-    '```bash',
-    `git clone git@github.com:${core.githubAccount}/${core.name}.git`,
-    'yarn global add `pwd`',
+    `elm install ${core.githubAccount}/${core.name}`,
     '```',
   ];
-  const body = isCli ? bodyCli : bodyLib;
 
   return {
     title: 'Installation',
-    body: [
-      'This package is [ESM only](https://blog.sindresorhus.com/get-ready-for-esm-aa53530b3f77).',
-      ...body,
-    ].join('\n'),
+    body: [...body].join('\n'),
   };
 };
 

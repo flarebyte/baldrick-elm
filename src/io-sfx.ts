@@ -3,28 +3,13 @@ import YAML from 'yaml';
 import { codeOfConductMd } from './markdown-code-of-conduct.js';
 import { contributingMd } from './markdown-contributing.js';
 import { toReadmeMd } from './markdown-readme.js';
-import {
-  CoreProject,
-  CustomizedPackageJson,
-  GenerateActionOpts,
-  PackageJson,
-  RunnerContext,
-} from './model.js';
-import {
-  defaultCustomizedPackageJson,
-  fixAutomatically,
-  suggestTasksToDo,
-} from './package.js';
-import { computeCoreProject } from './package-copy.js';
-import { fromString, toString } from './package-io.js';
+import { CoreProject, GenerateActionOpts, RunnerContext } from './model.js';
 import {
   getCommandHelp,
   getZshAliases,
   maintenanceMd,
 } from './markdown-maintenance.js';
-import { defaultPrettier } from './conf-prettier.js';
 import { gitIgnoreConfig } from './conf-git-ignore.js';
-import { defaultTsConfig } from './conf-tsconfig.js';
 import { defaultGithubWorkflow } from './conf-workflow.js';
 import { pullRequestMd } from './markdown-pull-request.js';
 import { featureRequest } from './yaml-feature-request.js';
@@ -35,6 +20,7 @@ import { licenseMd } from './markdown-license.js';
 import { toTechnicalDesignMd } from './markdown-technical-design.js';
 import { commitMessage } from './commit-message.js';
 import { glossaryMd } from './markdown-glossary.js';
+import { computeCoreProject } from './compute-core-project.js';
 
 export const toJsonString = (value: object): string => {
   return JSON.stringify(value, undefined, 2);
@@ -42,19 +28,6 @@ export const toJsonString = (value: object): string => {
 
 export const toYamlString = (value: object): string => {
   return YAML.stringify(value);
-};
-
-const readCustomizedPackageJson = async (): Promise<CustomizedPackageJson> => {
-  try {
-    const content = await readFile('./package.json', 'utf8');
-    return fromString(content);
-  } catch {
-    return defaultCustomizedPackageJson;
-  }
-};
-
-const writePackageJson = async (packageJson: PackageJson) => {
-  await writeFile('./package.json', toString(packageJson), 'utf8');
 };
 
 const readReadme = async (): Promise<string> => {
@@ -97,20 +70,12 @@ const writeMaintenance = async (proj: CoreProject) => {
   await writeFile('./MAINTENANCE.md', maintenanceMd(proj), 'utf8');
 };
 
-const writePrettierConfig = async () => {
-  await writeFile('.prettierrc.json', toJsonString(defaultPrettier), 'utf8');
-};
-
 const writeGitIgnore = async () => {
   await writeFile('.gitignore', gitIgnoreConfig, 'utf8');
 };
 
 const writeEditorConfig = async () => {
   await writeFile('.editorconfig', editorConfig, 'utf8');
-};
-
-const writeTsConfig = async () => {
-  await writeFile('./tsconfig.json', toJsonString(defaultTsConfig), 'utf8');
 };
 
 const writeLicense = async (proj: CoreProject) => {
@@ -189,19 +154,14 @@ export const updateAll = async (
 ) => {
   try {
     const coreProject = computeCoreProject(ctx, opts);
-    const customizedPackageJson = await readCustomizedPackageJson();
-    const newPackageJson = fixAutomatically(coreProject, customizedPackageJson);
-    await writePackageJson(newPackageJson);
     await writeReadme(coreProject);
     await createSourceDir();
     await writeCodeOfConducts(coreProject);
     await writeContributing();
     await writeMaintenance(coreProject);
     await writeTechnicalDesign(coreProject);
-    await writePrettierConfig();
     await writeGitIgnore();
     await writeEditorConfig();
-    await writeTsConfig();
     await writeLicense(coreProject);
     await createGithubWorkflowDir();
     await writeWorkflowConfig(coreProject);
@@ -214,14 +174,6 @@ export const updateAll = async (
     await writeCommandHelp(coreProject);
     await writeGlossary();
     await appendCommitMessage();
-    const todos = suggestTasksToDo(coreProject, newPackageJson);
-    for (const todo of todos)
-      ctx.termFormatter({
-        title: todo.status,
-        detail: todo.description,
-        kind: 'info',
-        format: 'default',
-      });
   } catch (error) {
     ctx.errTermFormatter({
       title: 'Generating - update error',

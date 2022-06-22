@@ -19,26 +19,27 @@ Please note we have a [code of conduct](CODE_OF_CONDUCT.md), please follow it in
 The following commands should get you started:
 
 ${___}bash
-yarn install
-yarn test
+make install-global
+make install
+make test
 ${___}
 
 A list of [most used commands](MAINTENANCE.md) is available:
 
 ${___}bash
-yarn h
+make help
 ${___}
 
 Please keep an eye on test coverage, bundle size and documentation.
 When you are ready for a pull request:
 
 ${___}bash
-yarn ready
+make ready
 ${___}
 
 And please check that building is still working:
 ${___}bash
-yarn build
+make build
 ${___}
 
 You can also simulate [Github actions](https://docs.github.com/en/actions) locally with [act](https://github.com/nektos/act). 
@@ -62,8 +63,7 @@ This would be done by the main maintainers of the project. Locally for now as up
 Assuming you have zsh installed, you can just do:
 
 ${___}bash
-source .aliases.zsh
-bpub
+make publish
 ${___}
 `;
 

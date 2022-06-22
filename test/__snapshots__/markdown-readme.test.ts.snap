@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Readme documentation Updates README.md with standardized chapters 1`] = `
+"# Project123
+
+![Status of direct dependencies](https://reiner-dolp.github.io/elm-badges/mycompany/project123/dependencies.svg) ![License of the package](https://reiner-dolp.github.io/elm-badges/mycompany/project123/license.svg) ![Latest version of the package](https://reiner-dolp.github.io/elm-badges/mycompany/project123/version.svg)
+
+> Scratch Book is an annotation library written in Typescript that makes it easy to write documentation in a decentralized fashion.
+
+- **Typescript** can be used to write the documentation. Integrates perfectly with [ts-node](https://typestrong.org/ts-node/).
+- **No dependency** and lightweight.
+- **Advanced matchers** to query the notes.
+- **Simple model** for the notes that requires very little learning curve while still offering a lot of flexibility.
+- **extensive tests coverage**.
+
+## Usage
+
+\`\`\`
+const myScratchBook: ScratchBook = {
+notes: [
+createScratchNote('about/scratchbook/description', 'Annotation library'),
+createScratchNote('about/scratchbook/github', 'scratchbook on github', 'https://github.com/flarebyte/scratchbook'),
+createScratchNote('about/other/...', 'Some other projects')
+]
+}
+filterScratchBook(withPrefix('about/scratchbook/'))(myScratchBook)
+// will return the description and the github link
+
+\`\`\`
+
+### Documentation
+
+A detailed documentation for each functions is [available](https://flarebyte.github.io/scratchbook/)
+
+### Installation
+
+\`\`\`
+yarn add scratchbook
+\`\`\`
+
+## Documentation and links
+
+* [Code Maintenance](MAINTENANCE.md)
+* [Code Of Conduct](CODE_OF_CONDUCT.md)
+* [Api for project123](API.md)
+* [Contributing](CONTRIBUTING.md)
+* [Glossary](GLOSSARY.md)
+* [Diagram for the code base](INTERNAL.md)
+* [Vocabulary used in the code base](CODE_VOCABULARY.md)
+* [Architectural Decision Records](DECISIONS.md)
+* [Contributors](https://github.com/mycompany/project123/graphs/contributors)
+* [Dependencies](https://github.com/mycompany/project123/network/dependencies)
+
+## Installation
+
+\`\`\`bash
+elm install mycompany/project123
+\`\`\`"
+`;

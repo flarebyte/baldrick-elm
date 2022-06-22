@@ -1,4 +1,4 @@
-import { glossaryMd } from '../src/markdown-glossary';
+import { glossaryMd } from '../src/markdown-glossary.js';
 
 describe('markdown-glossarys', () => {
   it('should provide a glossary', () => {

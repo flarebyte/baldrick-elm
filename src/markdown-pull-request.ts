@@ -7,10 +7,9 @@ Fixes: # (issue)
 
 ## Code check
 
-- [ ] ${_}yarn ready${_} does not show any concerning issues
+- [ ] ${_}make ready${_} does not show any concerning issues
 - [ ] the project can be built
 - [ ] the documentation has been updated
-- [ ] the version has been updated in ${_}package.json${_}
 
 ## Type of change
 

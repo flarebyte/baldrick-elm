@@ -1,71 +1,5 @@
 export const minimumNodeVersion = 14;
 
-interface PackageJsonCondExports {
-  import?: string;
-  require?: string;
-  default: string;
-  types?: string;
-}
-interface PackageJsonExports {
-  [key: string]: PackageJsonCondExports;
-}
-
-export type PackageJson = {
-  name: string;
-  description: string;
-  keywords: string[];
-  author: Author | string;
-  version: string;
-  license: string;
-  homepage: string;
-  repository: Repository;
-  bugs: string;
-  /** should be module or commonjs */
-  type: string;
-  /** Modern public exports for CommonJS and ES modules*/
-  exports: PackageJsonExports;
-  main: string;
-  /** Array of file patterns that describes the entries to be included when your package is installed as a dependency*/
-  files: string[];
-  bin: { [key: string]: string };
-  engines: Engines;
-  scripts: Scripts;
-  devDependencies: Dependencies;
-  dependencies: Dependencies;
-  peerDependencies: Dependencies;
-};
-
-export type CustomizedPackageJson = Pick<
-  PackageJson,
-  | 'description'
-  | 'keywords'
-  | 'version'
-  | 'author'
-  | 'scripts'
-  | 'devDependencies'
-  | 'dependencies'
-  | 'peerDependencies'
->;
-
-export interface PackageKeyStats {
-  key: string;
-  countItems: number;
-  stringLength: number;
-}
-
-export interface Author {
-  name: string;
-  url: string;
-}
-
-export interface Dependencies {
-  [key: string]: string;
-}
-
-export interface Engines {
-  node: string;
-}
-
 export interface Repository {
   type: string;
   url: string;
@@ -118,45 +52,6 @@ export interface CoreProject extends GenerateActionOpts {
   copyrightHolder: string;
   copyrightEndYear: number;
 }
-
-export type FieldStatus = 'ok' | 'todo' | 'fixable';
-
-export interface Todo {
-  description: string;
-  status: string;
-}
-
-export type SupportedPackageJsonFieldType = PackageJson[keyof PackageJson];
-
-export type toFieldStatus = (
-  value: SupportedPackageJsonFieldType,
-  fixed: SupportedPackageJsonFieldType
-) => FieldStatus;
-
-interface GenericPackageJson<T> {
-  name: T;
-  description: T;
-  keywords: T;
-  author: T;
-  version: T;
-  license: T;
-  homepage: T;
-  repository: T;
-  type: T;
-  exports: T;
-  main: T;
-  files: T;
-  bin: T;
-  engines: T;
-  scripts: T;
-  devDependencies: T;
-  dependencies: T;
-  peerDependencies: T;
-}
-
-export type PackageJsonStatusConverter = GenericPackageJson<toFieldStatus>;
-
-export type PackageJsonStatus = GenericPackageJson<FieldStatus>;
 
 type BadgePosition = 'top' | 'bottom';
 
