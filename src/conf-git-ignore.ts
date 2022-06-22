@@ -1,8 +1,10 @@
 const gitIgnoreRows: string[] = [
+  'elm-stuff',
+  'repl-temp-*',
+  '*.pyc',
   '*.log',
+  '.vscode/*.log',
   '.DS_Store',
-  'node_modules/',
-  'dist/',
   'report/',
   '.message',
 ];
