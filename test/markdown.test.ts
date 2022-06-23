@@ -238,6 +238,7 @@ describe('Markdown documentation', () => {
         },
       },
       examples: ['yarn lint src', 'yarn lint --fix'],
+      makeLines: [],
     };
     const actual = commandToMd(cmd);
     expect(actual).toMatchInlineSnapshot(`

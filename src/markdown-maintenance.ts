@@ -1,27 +1,16 @@
 import { markdownTable } from 'markdown-table';
 import { cmdOptionsGenerator } from './commanding-data.js';
 import { commandToMd } from './markdown.js';
-import { CoreProject, MdCommand, MdPackage, Scripts } from './model.js';
-
-const baldrickDevPackage: MdPackage = {
-  name: 'baldrick',
-  installationType: 'npm.dev',
-  description: 'Zero-config CLI for TypeScript package development',
-  homepage: 'https://github.com/flarebyte/baldrick-dev-ts',
-  repository: {
-    type: 'git',
-    url: 'https://github.com/flarebyte/baldrick-dev-ts',
-  },
-};
+import { CoreProject, MakefileCommand, MdCommand, MdPackage } from './model.js';
 
 const baldrickScaffoldingPackage: MdPackage = {
-  name: 'baldrick-ts',
+  name: 'baldrick-elm',
   installationType: 'npm.dev',
-  description: 'Typescript scaffolding assistant',
-  homepage: 'https://github.com/flarebyte/baldrick-ts',
+  description: 'Elm scaffolding assistant',
+  homepage: 'https://github.com/flarebyte/baldrick-elm',
   repository: {
     type: 'git',
-    url: 'https://github.com/flarebyte/baldrick-ts',
+    url: 'https://github.com/flarebyte/baldrick-elm',
   },
 };
 
@@ -33,6 +22,17 @@ const yarnPackage: MdPackage = {
   repository: {
     type: 'git',
     url: 'https://github.com/yarnpkg',
+  },
+};
+
+const makefilePackage: MdPackage = {
+  name: 'makefile',
+  installationType: 'brew',
+  description: 'Build management',
+  homepage: 'https://opensource.com/article/18/8/what-how-makefile',
+  repository: {
+    type: 'git',
+    url: 'https://github.com/',
   },
 };
 
@@ -69,93 +69,28 @@ const zshPackage: MdPackage = {
   },
 };
 
-const runBaldrick = (project: CoreProject): string =>
-  project.feature.includes('npx') ? 'npx baldrick-dev-ts' : 'baldrick';
-
-const lintCmd = (project: CoreProject): MdCommand => ({
-  name: 'lint',
+const analyzeCmd = (): MdCommand => ({
+  name: 'analyze',
   title: 'Static code analysis',
-  description: 'Find problems in Typescript code',
+  description: 'Find problems in Elm code',
   motivation: 'Make the code more consistent and avoid bugs',
   context: 'Before compilation',
-  run: 'yarn lint',
-  partOf: baldrickDevPackage,
+  run: 'make analyze',
+  partOf: makefilePackage,
   examples: [],
-  npmScript: ['lint', `${runBaldrick(project)} lint check -s src test`],
+  makeLines: ['elm-analyse -s -o'],
 });
 
-const lintFixCmd = (project: CoreProject): MdCommand => ({
-  name: 'lint:fix',
-  title: 'Fix static code analysis',
-  description: 'Fix problems in Typescript code',
-  motivation: 'Facilitate routine maintenance of code',
-  context: 'Before compilation',
-  run: 'yarn lint:fix',
-  partOf: baldrickDevPackage,
-  examples: [],
-  npmScript: ['lint:fix', `${runBaldrick(project)} lint fix -s src test`],
-});
-
-const lintCICmd = (project: CoreProject): MdCommand => ({
-  name: 'lint:ci',
-  title: 'Static code analysis for continuous integration',
-  description: 'Find problems in Typescript code',
-  motivation: 'Make the code more consistent and avoid bugs',
-  context: 'When pushing code to github, before testing',
-  run: 'yarn lint:ci',
-  partOf: baldrickDevPackage,
-  examples: [],
-  npmScript: ['lint:ci', `${runBaldrick(project)} lint ci`],
-});
-
-const testCmd = (project: CoreProject): MdCommand => ({
+const testCmd = (): MdCommand => ({
   name: 'test',
   title: 'Unit testing',
   description: 'Run the unit tests',
   motivation: 'Check that the units of code behave as intended',
   context: 'After compilation, before build',
-  run: 'yarn test',
-  partOf: baldrickDevPackage,
+  run: 'make test',
+  partOf: makefilePackage,
   examples: [],
-  npmScript: ['test', `${runBaldrick(project)} test check`],
-});
-
-const testFixCmd = (project: CoreProject): MdCommand => ({
-  name: 'test:fix',
-  title: 'Fix unit testing snapshots',
-  description: 'Run the unit tests and update the snapshots',
-  motivation: 'Facilitate routine maintenance of unit test snapshots',
-  context: 'After compilation, before build',
-  run: 'yarn test:fix',
-  partOf: baldrickDevPackage,
-  examples: [],
-  npmScript: ['test:fix', `${runBaldrick(project)} test fix`],
-});
-
-const testCovCmd = (project: CoreProject): MdCommand => ({
-  name: 'test:cov',
-  title: 'Unit testing code coverage',
-  description:
-    'Verify the extent to which the code has been executed. This does not include any threshold, but it is recommended to maximize the coverage',
-  motivation: 'Ensure that every code branch and function is executed ',
-  context: 'After compilation, before build',
-  run: 'yarn test:cov',
-  partOf: baldrickDevPackage,
-  examples: [],
-  npmScript: ['test:cov', `${runBaldrick(project)} test cov`],
-});
-
-const testCICmd = (project: CoreProject): MdCommand => ({
-  name: 'test:ci',
-  title: 'Unit testing code and coverage for continuous integration',
-  description: 'Test and verify the coverage of the code',
-  motivation:
-    'Check that the units of code behave as intended and ensure that every code branch and function is executed ',
-  context: 'When pushing code to github',
-  run: 'yarn test:ci',
-  partOf: baldrickDevPackage,
-  examples: [],
-  npmScript: ['test:ci', `${runBaldrick(project)} test ci`],
+  makeLines: ['elm-test'],
 });
 
 const resetCmd: MdCommand = {
@@ -164,54 +99,65 @@ const resetCmd: MdCommand = {
   description: 'Delete the dist and report folder',
   motivation: 'Start from a clean slate',
   context: 'Before building',
-  run: 'yarn reset',
-  partOf: yarnPackage,
+  run: 'make reset',
+  partOf: makefilePackage,
   examples: [],
-  npmScript: ['reset', 'rm -rf dist; rm -rf report'],
+  makeLines: ['rm -rf elm-stuff', 'rm -rf tests/elm-stuff'],
 };
 
-const prebuildCmd: MdCommand = {
-  name: 'prebuild',
-  title: 'Clear previous build',
-  description: 'Delete the dist and report folder',
-  motivation: 'Start from a clean slate',
+const installGloballyCmd: MdCommand = {
+  name: 'install-global',
+  title: 'Install global dependencies',
+  description: 'Install some dependencies globally',
+  motivation: 'Before running most commands',
   context: 'Before building',
-  run: 'yarn prebuild',
+  run: 'make install-global',
   partOf: yarnPackage,
   examples: [],
-  npmScript: ['prebuild', 'yarn reset'],
+  makeLines: [
+    'yarn global add elm-format@0.8.4',
+    'yarn global add elm-review',
+    'yarn global add elm-upgrade',
+    'yarn global add elm-doc-preview',
+    'yarn global add elm-analyse',
+  ],
 };
 
 const buildCmd: MdCommand = {
   name: 'build',
   title: 'Build the library',
-  description: 'Transpile all the typescript source code to javascript',
-  motivation: 'ESM library should be written in javascript',
+  description: 'Transpile all the Elm source code to javascript',
+  motivation: 'The code has to be build before been published',
   context: 'Before building',
-  run: 'yarn build',
-  partOf: yarnPackage,
+  run: 'make build',
+  partOf: makefilePackage,
   examples: [],
-  npmScript: ['build', 'tsc --outDir dist'],
+  makeLines: [],
+  parentMakeTask: 'test beautify doc',
 };
 
 const docCmd: MdCommand = {
   name: 'doc',
   title: 'Generate the documentation',
-  description: 'Generate the markdown documentation for the typescript project',
+  description: 'Generate the markdown documentation for the Elm project',
   motivation: 'Good documentation is essential for developer experience',
   context: 'Before publishing',
-  run: 'yarn doc',
-  partOf: yarnPackage,
+  run: 'make doc',
+  partOf: makefilePackage,
   examples: [],
-  npmScript: [
-    'doc',
-    [
-      'npx typedoc --json report/doc.json --pretty src/index.ts',
-      'npx baldrick-doc-ts typedoc --json-source report/doc.json',
-      'baldrick-doc-ts parse -f internal ngram',
-      'yarn md:fix',
-    ].join(' && '),
-  ],
+  makeLines: ['elm make --docs=documentation.json'],
+};
+
+const previewDocCmd: MdCommand = {
+  name: 'preview-doc',
+  title: 'Preview the documentation',
+  description: 'Generate the markdown documentation for the Elm project',
+  motivation: 'Good documentation is essential for developer experience',
+  context: 'Before publishing',
+  run: 'make preview-doc',
+  partOf: makefilePackage,
+  examples: [],
+  makeLines: ['elm-doc-preview'],
 };
 
 const githubCmd: MdCommand = {
@@ -220,13 +166,10 @@ const githubCmd: MdCommand = {
   description: 'Enable useful features for the github project repository',
   motivation: 'Create consistent settings',
   context: 'After creating',
-  run: 'yarn github',
+  run: 'make github',
   partOf: githubPackage,
   examples: [],
-  npmScript: [
-    'github',
-    'gh repo edit --delete-branch-on-merge --enable-squash-merge',
-  ],
+  makeLines: ['gh repo edit --delete-branch-on-merge --enable-squash-merge'],
 };
 
 const readyCmd: MdCommand = {
@@ -236,74 +179,37 @@ const readyCmd: MdCommand = {
     'Run a sequence of commands to check that the library is ready to be published',
   motivation: 'Detect quality flaws before pushing the code',
   context: 'Before pushing a branch',
-  run: 'yarn ready',
-  partOf: yarnPackage,
+  run: 'make ready',
+  partOf: makefilePackage,
   examples: [],
-  npmScript: [
-    'ready',
-    'yarn lint && yarn test:cov && yarn md && yarn outdated && yarn audit && yarn release:check',
-  ],
+  parentMakeTask: 'analyze test',
+  makeLines: [],
 };
 
-const mdCmd = (project: CoreProject): MdCommand => ({
+const mdCmd = (): MdCommand => ({
   name: 'md',
   title: 'Markdown check',
   description:
     'Checks that the markdown documents follows some consistent guidelines',
   motivation: 'Make the markdown documents consistent in style',
   context: 'Before publishing',
-  run: 'yarn md',
-  partOf: yarnPackage,
+  run: 'make md',
+  partOf: makefilePackage,
   examples: [],
-  npmScript: [
-    'md',
-    `${runBaldrick(project)} markdown check && ${runBaldrick(
-      project
-    )} markdown check -s .github/`,
-  ],
+  makeLines: ['markdown check', 'markdown check -s .github/'],
 });
 
-const mdFixCmd = (project: CoreProject): MdCommand => ({
+const mdFixCmd = (): MdCommand => ({
   name: 'md:fix',
   title: 'Markdown fix',
   description:
     'Modify the markdown documents to ensure they follow some consistent guidelines',
   motivation: 'Make the markdown documents consistent in style',
   context: 'Before publishing',
-  run: 'yarn md:fix',
-  partOf: yarnPackage,
+  run: 'make md:fix',
+  partOf: makefilePackage,
   examples: [],
-  npmScript: [
-    'md:fix',
-    `${runBaldrick(project)} markdown fix && ${runBaldrick(
-      project
-    )} markdown fix -s .github/`,
-  ],
-});
-
-const cliCmd = (): MdCommand => ({
-  name: 'cli',
-  title: 'Run client directly',
-  description: 'Run the client with ts-node during development',
-  motivation:
-    'Simulate a CLI app in development without the need to install it globally',
-  context: 'After compilation',
-  run: 'yarn cli',
-  partOf: yarnPackage,
-  examples: [],
-  npmScript: ['cli', 'node --loader ts-node/esm src/cli.mts'],
-});
-
-const releaseCheckCmd = (project: CoreProject): MdCommand => ({
-  name: 'release:check',
-  title: 'Release check',
-  description: 'Checks if a release could be created',
-  motivation: 'Avoid failing the release',
-  context: 'After publishing',
-  run: 'yarn release:check',
-  partOf: baldrickDevPackage,
-  examples: [],
-  npmScript: ['release:check', `${runBaldrick(project)} release check`],
+  makeLines: ['markdown fix', 'markdown fix -s .github/'],
 });
 
 const helpCmd: MdCommand = {
@@ -312,24 +218,11 @@ const helpCmd: MdCommand = {
   description: 'Summarize all the yarn and shell commands',
   motivation: 'Assist the developer in quickly finding commands',
   context: 'Before running a command',
-  run: 'yarn h',
-  partOf: baldrickDevPackage,
+  run: 'make help',
+  partOf: makefilePackage,
   examples: [],
-  npmScript: ['h', 'cat commands.txt'],
+  makeLines: ['cat commands.txt'],
 };
-
-const releaseCiCmd = (project: CoreProject): MdCommand => ({
-  name: 'release:ci',
-  title: 'Release',
-  description: 'Creates a github release',
-  motivation: 'Save releases in github',
-  context: 'After publishing',
-  run: 'bpub',
-  partOf: baldrickDevPackage,
-  examples: [],
-  npmScript: ['release:ci', `${runBaldrick(project)} release ci`],
-  zshAlias: ['bpub', `yarn build && npx baldrick-dev-ts release ci`],
-});
 
 const actCmd: MdCommand = {
   name: 'act',
@@ -340,11 +233,12 @@ const actCmd: MdCommand = {
   run: 'act',
   partOf: actPackage,
   examples: [],
+  makeLines: [],
 };
 const og = cmdOptionsGenerator;
-const normCmd = (project: CoreProject, global: boolean): MdCommand => {
+const normCmd = (project: CoreProject): MdCommand => {
   const npmMandatoryScript = [
-    global ? 'baldrick-ts generate' : 'npx baldrick-ts generate',
+    'npx baldrick-elm generate',
     `-${og.feature.shortFlag}`,
     project.feature.join(' '),
     `-${og.githubAccount.shortFlag}`,
@@ -361,20 +255,10 @@ const normCmd = (project: CoreProject, global: boolean): MdCommand => {
     ? [`-${og.codacyId.shortFlag}`, project.codacyId]
     : [];
 
-  const binParam =
-    project.feature.includes('cli') && project.bin !== project.name
-      ? [`-${og.bin.shortFlag}`, project.bin]
-      : [];
-
-  const npmScript = [
-    ...npmMandatoryScript,
-    ...binParam,
-    ...codacyScript,
-    '&& yarn md:fix',
-  ];
+  const npmScript = [...npmMandatoryScript, ...codacyScript, '&& yarn md:fix'];
 
   return {
-    name: global ? 'norm:global' : 'norm',
+    name: 'norm',
     title: global
       ? 'Normalize the code structure'
       : 'Normalize the code structure using latest',
@@ -383,24 +267,11 @@ const normCmd = (project: CoreProject, global: boolean): MdCommand => {
       : 'Normalize the code structure using baldrick (npx version)',
     motivation: 'Create a consistent developer experience',
     context: 'When changing github actions',
-    run: global ? 'yarn norm:g' : 'yarn norm',
+    run: 'make norm',
     partOf: baldrickScaffoldingPackage,
     examples: [],
-    npmScript: [global ? 'norm:g' : 'norm', npmScript.join(' ')],
+    makeLines: [npmScript.join(' ')],
   };
-};
-
-const yarnAddGlobalCmd: MdCommand = {
-  name: 'yarn-add-global',
-  title: 'Install the local project globally',
-  description:
-    'Install this local project/script globally on the dev machine for development or testing purpose',
-  motivation: 'Test global project locally before publishing',
-  context: 'When testing locally',
-  run: 'yig',
-  partOf: yarnPackage,
-  examples: [],
-  zshAlias: ['yig', 'yarn global add $PWD'],
 };
 
 const gitCommitFileCmd: MdCommand = {
@@ -413,71 +284,48 @@ const gitCommitFileCmd: MdCommand = {
   partOf: zshPackage,
   examples: [],
   zshAlias: ['gcf', 'git add . && git commit -F .message && rm .message'],
+  makeLines: [],
 };
 
-const devCommands = (project: CoreProject): MdCommand[] => [
+const devCommands = (): MdCommand[] => [
   actCmd,
   buildCmd,
   docCmd,
+  previewDocCmd,
   githubCmd,
-  lintCICmd(project),
-  lintCmd(project),
-  lintFixCmd(project),
-  mdCmd(project),
-  mdFixCmd(project),
-  prebuildCmd,
+  analyzeCmd(),
+  mdCmd(),
+  mdFixCmd(),
+  installGloballyCmd,
   readyCmd,
   resetCmd,
-  testCICmd(project),
-  testCmd(project),
-  testCovCmd(project),
-  testFixCmd(project),
-  releaseCheckCmd(project),
-  releaseCiCmd(project),
+  testCmd(),
   helpCmd,
   gitCommitFileCmd,
-  yarnAddGlobalCmd,
 ];
 
-const maintenanceOverview = (project: CoreProject) =>
+const maintenanceOverview = () =>
   markdownTable([
     ['Mode', 'Code analysis', 'Testing', 'Building', 'Publishing'],
     [
       'Checking',
-      lintCmd(project).run,
-      `${testCmd(project).run} or ${testCovCmd(project).run}`,
+      analyzeCmd().run,
+      `${testCmd().run}`,
       buildCmd.run,
-      `${readyCmd.run} and ${releaseCheckCmd(project).run}`,
+      `${readyCmd.run}`,
     ],
-    [
-      'Fixing',
-      lintFixCmd(project).run,
-      testFixCmd(project).run,
-      'Fix the code',
-      `Update dependencies and ${docCmd.run}`,
-    ],
-    [
-      'Continuous integration',
-      lintCICmd(project).run,
-      testCICmd(project).run,
-      buildCmd.run,
-      releaseCiCmd(project).run,
-    ],
+    ['Fixing', 'Fix the code', `Update dependencies and ${docCmd.run}`],
+    ['Continuous integration', buildCmd.run],
   ]);
 
 export const maintenanceMd = (project: CoreProject): string => {
-  const cmds = [
-    ...devCommands(project),
-    normCmd(project, false),
-    normCmd(project, true),
-    cliCmd(),
-  ];
+  const cmds = [...devCommands(), normCmd(project)];
   const cmdSections: string[] = cmds.map(commandToMd);
   return [
     '# Maintenance of the code',
     '## Overall workflow',
     'The typical developer workflow goes as follow:',
-    maintenanceOverview(project),
+    maintenanceOverview(),
     '## Commands',
     ...cmdSections,
   ].join('\n\n');
@@ -485,31 +333,21 @@ export const maintenanceMd = (project: CoreProject): string => {
 
 const removeNulls = <S>(value: S | undefined): value is S => value != undefined;
 
-export const getNpmScripts = (project: CoreProject): Scripts => {
-  const isCli = project.feature.includes('cli');
-  const isCliOrLib = project.feature.includes('lib') || isCli;
-  const cliOnlyCommands = isCli ? [cliCmd()] : [];
-  if (isCliOrLib) {
-    const commands = [
-      ...devCommands(project),
-      normCmd(project, false),
-      normCmd(project, true),
-      ...cliOnlyCommands,
-    ]
-      .map((cmd) => cmd.npmScript)
-      .filter(removeNulls);
-    return Object.fromEntries(commands);
-  }
-  return {};
-};
-
-export const getZshAliases = (project: CoreProject): string => {
-  const isCliOrLib =
-    project.feature.includes('lib') || project.feature.includes('cli');
-  if (!isCliOrLib) {
-    return '# no alias available';
-  }
-  const commands = devCommands(project)
+export const getMakefileCommands = (project: CoreProject): MakefileCommand[] =>
+  [...devCommands(), normCmd(project)]
+    .map((cmd) =>
+      cmd.makeLines.length > 0 || cmd.parentMakeTask
+        ? {
+            name: cmd.name,
+            title: cmd.title,
+            makeLines: cmd.makeLines,
+            parentMakeTask: cmd.parentMakeTask,
+          }
+        : undefined
+    )
+    .filter(removeNulls);
+export const getZshAliases = (): string => {
+  const commands = devCommands()
     .map((cmd) => cmd.zshAlias)
     .filter(removeNulls)
     .map(([name, command]) => `alias ${name}='${command}'`);
@@ -518,12 +356,7 @@ export const getZshAliases = (project: CoreProject): string => {
 };
 
 export const getCommandHelp = (project: CoreProject): string => {
-  const commands = [
-    ...devCommands(project),
-    normCmd(project, false),
-    normCmd(project, true),
-    cliCmd(),
-  ];
+  const commands = [...devCommands(), normCmd(project)];
 
   const runMaxLength = Math.max(...commands.map((cmd) => cmd.run.length));
 

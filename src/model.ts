@@ -109,11 +109,16 @@ export interface MdCommand {
    * Ways to run this tools with additional parameters
    */
   examples: string[];
+
   /**
-   * The npm script that should be run if any
-   * [name, command]
+   * Makefile script
    */
-  npmScript?: [string, string];
+  makeLines: string[];
+
+  /**
+   * The parent task if any for the make file
+   */
+  parentMakeTask?: string;
 
   /**
    * The zsh alias that should be run if any
@@ -121,6 +126,11 @@ export interface MdCommand {
    */
   zshAlias?: [string, string];
 }
+
+export type MakefileCommand = Pick<
+  MdCommand,
+  'name' | 'title' | 'parentMakeTask' | 'makeLines'
+>;
 export interface VsCodeSnippet {
   scope: string;
   prefix: string;

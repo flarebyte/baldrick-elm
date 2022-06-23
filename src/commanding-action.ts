@@ -9,7 +9,9 @@ export const cmdGenerateAction: GenerateAction = async (
   ctx.termFormatter({
     title: 'Normalized the project structure and documents',
     detail: [
-      'You may need to run: yarn add baldrick-dev-ts typescript --dev',
+      'You may need to run:',
+      'make install-global',
+      'make install',
     ].join('\n'),
     kind: 'info',
     format: 'default',

@@ -7,11 +7,11 @@ exports[`Maintenance documentation normalizes MAINTENANCE.md 1`] = `
 
 The typical developer workflow goes as follow:
 
-| Mode                   | Code analysis | Testing                    | Building     | Publishing                        |
-| ---------------------- | ------------- | -------------------------- | ------------ | --------------------------------- |
-| Checking               | yarn lint     | yarn test or yarn test:cov | yarn build   | yarn ready and yarn release:check |
-| Fixing                 | yarn lint:fix | yarn test:fix              | Fix the code | Update dependencies and yarn doc  |
-| Continuous integration | yarn lint:ci  | yarn test:ci               | yarn build   | bpub                              |
+| Mode                   | Code analysis | Testing                          | Building   | Publishing |
+| ---------------------- | ------------- | -------------------------------- | ---------- | ---------- |
+| Checking               | make analyze  | make test                        | make build | make ready |
+| Fixing                 | Fix the code  | Update dependencies and make doc |            |            |
+| Continuous integration | make build    |                                  |            |            |
 
 ## Commands
 
@@ -31,29 +31,43 @@ __From package:__ [act](https://github.com/nektos/act) of [brew](https://docs.br
 
 ### Build the library
 
-> Transpile all the typescript source code to javascript
+> Transpile all the Elm source code to javascript
 
-__Motivation:__ ESM library should be written in javascript
+__Motivation:__ The code has to be build before been published
 
 __When to use it:__ Before building
 
-__Run:__ \`\`\`yarn build\`\`\`
+__Run:__ \`\`\`make build\`\`\`
 
-__From package:__ [yarn](https://classic.yarnpkg.com/en/) of [npm](https://www.npmjs.com/) :  Dependency management
+__From package:__ [makefile](https://opensource.com/article/18/8/what-how-makefile) of [brew](https://docs.brew.sh/) :  Build management
 
 ---
 
 ### Generate the documentation
 
-> Generate the markdown documentation for the typescript project
+> Generate the markdown documentation for the Elm project
 
 __Motivation:__ Good documentation is essential for developer experience
 
 __When to use it:__ Before publishing
 
-__Run:__ \`\`\`yarn doc\`\`\`
+__Run:__ \`\`\`make doc\`\`\`
 
-__From package:__ [yarn](https://classic.yarnpkg.com/en/) of [npm](https://www.npmjs.com/) :  Dependency management
+__From package:__ [makefile](https://opensource.com/article/18/8/what-how-makefile) of [brew](https://docs.brew.sh/) :  Build management
+
+---
+
+### Preview the documentation
+
+> Generate the markdown documentation for the Elm project
+
+__Motivation:__ Good documentation is essential for developer experience
+
+__When to use it:__ Before publishing
+
+__Run:__ \`\`\`make preview-doc\`\`\`
+
+__From package:__ [makefile](https://opensource.com/article/18/8/what-how-makefile) of [brew](https://docs.brew.sh/) :  Build management
 
 ---
 
@@ -65,51 +79,23 @@ __Motivation:__ Create consistent settings
 
 __When to use it:__ After creating
 
-__Run:__ \`\`\`yarn github\`\`\`
+__Run:__ \`\`\`make github\`\`\`
 
 __From package:__ [gh](https://cli.github.com/) of [brew](https://docs.brew.sh/) :  GitHub CLI brings GitHub to your terminal
 
 ---
 
-### Static code analysis for continuous integration
-
-> Find problems in Typescript code
-
-__Motivation:__ Make the code more consistent and avoid bugs
-
-__When to use it:__ When pushing code to github, before testing
-
-__Run:__ \`\`\`yarn lint:ci\`\`\`
-
-__From package:__ [baldrick](https://github.com/flarebyte/baldrick-dev-ts) of [npm](https://www.npmjs.com/) :  Zero-config CLI for TypeScript package development
-
----
-
 ### Static code analysis
 
-> Find problems in Typescript code
+> Find problems in Elm code
 
 __Motivation:__ Make the code more consistent and avoid bugs
 
 __When to use it:__ Before compilation
 
-__Run:__ \`\`\`yarn lint\`\`\`
+__Run:__ \`\`\`make analyze\`\`\`
 
-__From package:__ [baldrick](https://github.com/flarebyte/baldrick-dev-ts) of [npm](https://www.npmjs.com/) :  Zero-config CLI for TypeScript package development
-
----
-
-### Fix static code analysis
-
-> Fix problems in Typescript code
-
-__Motivation:__ Facilitate routine maintenance of code
-
-__When to use it:__ Before compilation
-
-__Run:__ \`\`\`yarn lint:fix\`\`\`
-
-__From package:__ [baldrick](https://github.com/flarebyte/baldrick-dev-ts) of [npm](https://www.npmjs.com/) :  Zero-config CLI for TypeScript package development
+__From package:__ [makefile](https://opensource.com/article/18/8/what-how-makefile) of [brew](https://docs.brew.sh/) :  Build management
 
 ---
 
@@ -121,9 +107,9 @@ __Motivation:__ Make the markdown documents consistent in style
 
 __When to use it:__ Before publishing
 
-__Run:__ \`\`\`yarn md\`\`\`
+__Run:__ \`\`\`make md\`\`\`
 
-__From package:__ [yarn](https://classic.yarnpkg.com/en/) of [npm](https://www.npmjs.com/) :  Dependency management
+__From package:__ [makefile](https://opensource.com/article/18/8/what-how-makefile) of [brew](https://docs.brew.sh/) :  Build management
 
 ---
 
@@ -135,21 +121,21 @@ __Motivation:__ Make the markdown documents consistent in style
 
 __When to use it:__ Before publishing
 
-__Run:__ \`\`\`yarn md:fix\`\`\`
+__Run:__ \`\`\`make md:fix\`\`\`
 
-__From package:__ [yarn](https://classic.yarnpkg.com/en/) of [npm](https://www.npmjs.com/) :  Dependency management
+__From package:__ [makefile](https://opensource.com/article/18/8/what-how-makefile) of [brew](https://docs.brew.sh/) :  Build management
 
 ---
 
-### Clear previous build
+### Install global dependencies
 
-> Delete the dist and report folder
+> Install some dependencies globally
 
-__Motivation:__ Start from a clean slate
+__Motivation:__ Before running most commands
 
 __When to use it:__ Before building
 
-__Run:__ \`\`\`yarn prebuild\`\`\`
+__Run:__ \`\`\`make install-global\`\`\`
 
 __From package:__ [yarn](https://classic.yarnpkg.com/en/) of [npm](https://www.npmjs.com/) :  Dependency management
 
@@ -163,9 +149,9 @@ __Motivation:__ Detect quality flaws before pushing the code
 
 __When to use it:__ Before pushing a branch
 
-__Run:__ \`\`\`yarn ready\`\`\`
+__Run:__ \`\`\`make ready\`\`\`
 
-__From package:__ [yarn](https://classic.yarnpkg.com/en/) of [npm](https://www.npmjs.com/) :  Dependency management
+__From package:__ [makefile](https://opensource.com/article/18/8/what-how-makefile) of [brew](https://docs.brew.sh/) :  Build management
 
 ---
 
@@ -177,23 +163,9 @@ __Motivation:__ Start from a clean slate
 
 __When to use it:__ Before building
 
-__Run:__ \`\`\`yarn reset\`\`\`
+__Run:__ \`\`\`make reset\`\`\`
 
-__From package:__ [yarn](https://classic.yarnpkg.com/en/) of [npm](https://www.npmjs.com/) :  Dependency management
-
----
-
-### Unit testing code and coverage for continuous integration
-
-> Test and verify the coverage of the code
-
-__Motivation:__ Check that the units of code behave as intended and ensure that every code branch and function is executed 
-
-__When to use it:__ When pushing code to github
-
-__Run:__ \`\`\`yarn test:ci\`\`\`
-
-__From package:__ [baldrick](https://github.com/flarebyte/baldrick-dev-ts) of [npm](https://www.npmjs.com/) :  Zero-config CLI for TypeScript package development
+__From package:__ [makefile](https://opensource.com/article/18/8/what-how-makefile) of [brew](https://docs.brew.sh/) :  Build management
 
 ---
 
@@ -205,65 +177,9 @@ __Motivation:__ Check that the units of code behave as intended
 
 __When to use it:__ After compilation, before build
 
-__Run:__ \`\`\`yarn test\`\`\`
+__Run:__ \`\`\`make test\`\`\`
 
-__From package:__ [baldrick](https://github.com/flarebyte/baldrick-dev-ts) of [npm](https://www.npmjs.com/) :  Zero-config CLI for TypeScript package development
-
----
-
-### Unit testing code coverage
-
-> Verify the extent to which the code has been executed. This does not include any threshold, but it is recommended to maximize the coverage
-
-__Motivation:__ Ensure that every code branch and function is executed 
-
-__When to use it:__ After compilation, before build
-
-__Run:__ \`\`\`yarn test:cov\`\`\`
-
-__From package:__ [baldrick](https://github.com/flarebyte/baldrick-dev-ts) of [npm](https://www.npmjs.com/) :  Zero-config CLI for TypeScript package development
-
----
-
-### Fix unit testing snapshots
-
-> Run the unit tests and update the snapshots
-
-__Motivation:__ Facilitate routine maintenance of unit test snapshots
-
-__When to use it:__ After compilation, before build
-
-__Run:__ \`\`\`yarn test:fix\`\`\`
-
-__From package:__ [baldrick](https://github.com/flarebyte/baldrick-dev-ts) of [npm](https://www.npmjs.com/) :  Zero-config CLI for TypeScript package development
-
----
-
-### Release check
-
-> Checks if a release could be created
-
-__Motivation:__ Avoid failing the release
-
-__When to use it:__ After publishing
-
-__Run:__ \`\`\`yarn release:check\`\`\`
-
-__From package:__ [baldrick](https://github.com/flarebyte/baldrick-dev-ts) of [npm](https://www.npmjs.com/) :  Zero-config CLI for TypeScript package development
-
----
-
-### Release
-
-> Creates a github release
-
-__Motivation:__ Save releases in github
-
-__When to use it:__ After publishing
-
-__Run:__ \`\`\`bpub\`\`\`
-
-__From package:__ [baldrick](https://github.com/flarebyte/baldrick-dev-ts) of [npm](https://www.npmjs.com/) :  Zero-config CLI for TypeScript package development
+__From package:__ [makefile](https://opensource.com/article/18/8/what-how-makefile) of [brew](https://docs.brew.sh/) :  Build management
 
 ---
 
@@ -275,9 +191,9 @@ __Motivation:__ Assist the developer in quickly finding commands
 
 __When to use it:__ Before running a command
 
-__Run:__ \`\`\`yarn h\`\`\`
+__Run:__ \`\`\`make help\`\`\`
 
-__From package:__ [baldrick](https://github.com/flarebyte/baldrick-dev-ts) of [npm](https://www.npmjs.com/) :  Zero-config CLI for TypeScript package development
+__From package:__ [makefile](https://opensource.com/article/18/8/what-how-makefile) of [brew](https://docs.brew.sh/) :  Build management
 
 ---
 
@@ -295,34 +211,6 @@ __From package:__ [zsh](https://www.zsh.org/) of [brew](https://docs.brew.sh/) :
 
 ---
 
-### Install the local project globally
-
-> Install this local project/script globally on the dev machine for development or testing purpose
-
-__Motivation:__ Test global project locally before publishing
-
-__When to use it:__ When testing locally
-
-__Run:__ \`\`\`yig\`\`\`
-
-__From package:__ [yarn](https://classic.yarnpkg.com/en/) of [npm](https://www.npmjs.com/) :  Dependency management
-
----
-
-### Normalize the code structure using latest
-
-> Normalize the code structure using baldrick (npx version)
-
-__Motivation:__ Create a consistent developer experience
-
-__When to use it:__ When changing github actions
-
-__Run:__ \`\`\`yarn norm\`\`\`
-
-__From package:__ [baldrick-ts](https://github.com/flarebyte/baldrick-ts) of [npm](https://www.npmjs.com/) :  Typescript scaffolding assistant
-
----
-
 ### Normalize the code structure
 
 > Normalize the code structure using baldrick (global version)
@@ -331,48 +219,121 @@ __Motivation:__ Create a consistent developer experience
 
 __When to use it:__ When changing github actions
 
-__Run:__ \`\`\`yarn norm:g\`\`\`
+__Run:__ \`\`\`make norm\`\`\`
 
-__From package:__ [baldrick-ts](https://github.com/flarebyte/baldrick-ts) of [npm](https://www.npmjs.com/) :  Typescript scaffolding assistant
-
----
-
-### Run client directly
-
-> Run the client with ts-node during development
-
-__Motivation:__ Simulate a CLI app in development without the need to install it globally
-
-__When to use it:__ After compilation
-
-__Run:__ \`\`\`yarn cli\`\`\`
-
-__From package:__ [yarn](https://classic.yarnpkg.com/en/) of [npm](https://www.npmjs.com/) :  Dependency management
+__From package:__ [baldrick-elm](https://github.com/flarebyte/baldrick-elm) of [npm](https://www.npmjs.com/) :  Elm scaffolding assistant
 
 ---"
 `;
 
 exports[`Maintenance documentation produces a list of npm scripts 1`] = `
-Object {
-  "build": "tsc --outDir dist",
-  "doc": "npx typedoc --json report/doc.json --pretty src/index.ts && npx baldrick-doc-ts typedoc --json-source report/doc.json && baldrick-doc-ts parse -f internal ngram && yarn md:fix",
-  "github": "gh repo edit --delete-branch-on-merge --enable-squash-merge",
-  "h": "cat commands.txt",
-  "lint": "baldrick lint check -s src test",
-  "lint:ci": "baldrick lint ci",
-  "lint:fix": "baldrick lint fix -s src test",
-  "md": "baldrick markdown check && baldrick markdown check -s .github/",
-  "md:fix": "baldrick markdown fix && baldrick markdown fix -s .github/",
-  "norm": "npx baldrick-ts generate -f lib -ga 'mycompany' -ch 'Great Company' -cy 2020 -l MIT && yarn md:fix",
-  "norm:g": "baldrick-ts generate -f lib -ga 'mycompany' -ch 'Great Company' -cy 2020 -l MIT && yarn md:fix",
-  "prebuild": "yarn reset",
-  "ready": "yarn lint && yarn test:cov && yarn md && yarn outdated && yarn audit && yarn release:check",
-  "release:check": "baldrick release check",
-  "release:ci": "baldrick release ci",
-  "reset": "rm -rf dist; rm -rf report",
-  "test": "baldrick test check",
-  "test:ci": "baldrick test ci",
-  "test:cov": "baldrick test cov",
-  "test:fix": "baldrick test fix",
-}
+Array [
+  Object {
+    "makeLines": Array [],
+    "name": "build",
+    "parentMakeTask": "test beautify doc",
+    "title": "Build the library",
+  },
+  Object {
+    "makeLines": Array [
+      "elm make --docs=documentation.json",
+    ],
+    "name": "doc",
+    "parentMakeTask": undefined,
+    "title": "Generate the documentation",
+  },
+  Object {
+    "makeLines": Array [
+      "elm-doc-preview",
+    ],
+    "name": "preview-doc",
+    "parentMakeTask": undefined,
+    "title": "Preview the documentation",
+  },
+  Object {
+    "makeLines": Array [
+      "gh repo edit --delete-branch-on-merge --enable-squash-merge",
+    ],
+    "name": "github",
+    "parentMakeTask": undefined,
+    "title": "Update github repository",
+  },
+  Object {
+    "makeLines": Array [
+      "elm-analyse -s -o",
+    ],
+    "name": "analyze",
+    "parentMakeTask": undefined,
+    "title": "Static code analysis",
+  },
+  Object {
+    "makeLines": Array [
+      "markdown check",
+      "markdown check -s .github/",
+    ],
+    "name": "md",
+    "parentMakeTask": undefined,
+    "title": "Markdown check",
+  },
+  Object {
+    "makeLines": Array [
+      "markdown fix",
+      "markdown fix -s .github/",
+    ],
+    "name": "md:fix",
+    "parentMakeTask": undefined,
+    "title": "Markdown fix",
+  },
+  Object {
+    "makeLines": Array [
+      "yarn global add elm-format@0.8.4",
+      "yarn global add elm-review",
+      "yarn global add elm-upgrade",
+      "yarn global add elm-doc-preview",
+      "yarn global add elm-analyse",
+    ],
+    "name": "install-global",
+    "parentMakeTask": undefined,
+    "title": "Install global dependencies",
+  },
+  Object {
+    "makeLines": Array [],
+    "name": "ready",
+    "parentMakeTask": "analyze test",
+    "title": "Ready for publishing",
+  },
+  Object {
+    "makeLines": Array [
+      "rm -rf elm-stuff",
+      "rm -rf tests/elm-stuff",
+    ],
+    "name": "reset",
+    "parentMakeTask": undefined,
+    "title": "Reset distribution and report folders",
+  },
+  Object {
+    "makeLines": Array [
+      "elm-test",
+    ],
+    "name": "test",
+    "parentMakeTask": undefined,
+    "title": "Unit testing",
+  },
+  Object {
+    "makeLines": Array [
+      "cat commands.txt",
+    ],
+    "name": "help",
+    "parentMakeTask": undefined,
+    "title": "Help for commands",
+  },
+  Object {
+    "makeLines": Array [
+      "npx baldrick-elm generate -f lib -ga 'mycompany' -ch 'Great Company' -cy 2020 -l MIT && yarn md:fix",
+    ],
+    "name": "norm",
+    "parentMakeTask": undefined,
+    "title": "Normalize the code structure",
+  },
+]
 `;
