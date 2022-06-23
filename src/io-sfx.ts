@@ -21,6 +21,7 @@ import { toTechnicalDesignMd } from './markdown-technical-design.js';
 import { commitMessage } from './commit-message.js';
 import { glossaryMd } from './markdown-glossary.js';
 import { computeCoreProject } from './compute-core-project.js';
+import { makefile } from './makefile.js';
 
 export const toJsonString = (value: object): string => {
   return JSON.stringify(value, undefined, 2);
@@ -82,6 +83,9 @@ const writeLicense = async (proj: CoreProject) => {
   await writeFile('./LICENSE', licenseMd(proj), 'utf8');
 };
 
+const writeMakefile = async (proj: CoreProject) => {
+  await writeFile('./Makefile', makefile(proj), 'utf8');
+};
 const createGithubWorkflowDir = async () => {
   await mkdir('.github/workflows', { recursive: true });
   await mkdir('.github/ISSUE_TEMPLATE', { recursive: true });
@@ -136,8 +140,8 @@ const appendCommitMessage = async () => {
   await appendFile('.message', commitMessage(), 'utf8');
 };
 
-const writeZshAlias = async (core: CoreProject) => {
-  await writeFile('.aliases.zsh', getZshAliases(core), 'utf8');
+const writeZshAlias = async () => {
+  await writeFile('.aliases.zsh', getZshAliases(), 'utf8');
 };
 
 const writeCommandHelp = async (core: CoreProject) => {
@@ -163,6 +167,7 @@ export const updateAll = async (
     await writeGitIgnore();
     await writeEditorConfig();
     await writeLicense(coreProject);
+    await writeMakefile(coreProject);
     await createGithubWorkflowDir();
     await writeWorkflowConfig(coreProject);
     await writePullRequestMd();
@@ -170,7 +175,7 @@ export const updateAll = async (
     await writeBugReportYaml();
     await createVisualCodeDir();
     await writeVsCodeSnippets();
-    await writeZshAlias(coreProject);
+    await writeZshAlias();
     await writeCommandHelp(coreProject);
     await writeGlossary();
     await appendCommitMessage();
