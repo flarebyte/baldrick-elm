@@ -99,6 +99,34 @@ __From package:__ [makefile](https://opensource.com/article/18/8/what-how-makefi
 
 ---
 
+### Beautify Elm source code
+
+> Formats Elm source code according to a standard set of rules based on the official Elm Style Guide
+
+__Motivation:__ Make the code more consistent and avoid bugs
+
+__When to use it:__ Before compilation
+
+__Run:__ \`\`\`make beautify\`\`\`
+
+__From package:__ [makefile](https://opensource.com/article/18/8/what-how-makefile) of [brew](https://docs.brew.sh/) :  Build management
+
+---
+
+### Detects Elm code API changes
+
+> See what changed in the package between versions
+
+__Motivation:__ Sometimes a MAJOR change is not actually very big, so this can help you plan your upgrade timelines
+
+__When to use it:__ Before compilation
+
+__Run:__ \`\`\`make diff\`\`\`
+
+__From package:__ [elm](https://guide.elm-lang.org/install/elm.html) of [npm](https://www.npmjs.com/) :  Dependency management
+
+---
+
 ### Markdown check
 
 > Checks that the markdown documents follows some consistent guidelines
@@ -121,9 +149,23 @@ __Motivation:__ Make the markdown documents consistent in style
 
 __When to use it:__ Before publishing
 
-__Run:__ \`\`\`make md:fix\`\`\`
+__Run:__ \`\`\`make md-fix\`\`\`
 
 __From package:__ [makefile](https://opensource.com/article/18/8/what-how-makefile) of [brew](https://docs.brew.sh/) :  Build management
+
+---
+
+### Install local dependencies
+
+> Install some dependencies
+
+__Motivation:__ Before running most commands
+
+__When to use it:__ Before building
+
+__Run:__ \`\`\`make install\`\`\`
+
+__From package:__ [elm](https://guide.elm-lang.org/install/elm.html) of [npm](https://www.npmjs.com/) :  Dependency management
 
 ---
 
@@ -211,6 +253,62 @@ __From package:__ [zsh](https://www.zsh.org/) of [brew](https://docs.brew.sh/) :
 
 ---
 
+### Reset generated folders
+
+> Delete the generated folder
+
+__Motivation:__ Start generation from a clean slate
+
+__When to use it:__ Before generation
+
+__Run:__ \`\`\`make reset-generated\`\`\`
+
+__From package:__ [makefile](https://opensource.com/article/18/8/what-how-makefile) of [brew](https://docs.brew.sh/) :  Build management
+
+---
+
+### Prepare scripts for code generation
+
+> Generate the scripts used for code generation
+
+__Motivation:__ The generation scripts contain a fair amount of boilerplate code that can be easily generated
+
+__When to use it:__ Before generation
+
+__Run:__ \`\`\`make pre-generate\`\`\`
+
+__From package:__ [zsh](https://www.zsh.org/) of [brew](https://docs.brew.sh/) :  Shell designed for interactive use
+
+---
+
+### Generate some Elm Code
+
+> Generate some of the boilerplate code for the Elm project
+
+__Motivation:__ Standardize and boost the development process
+
+__When to use it:__ When changing model
+
+__Run:__ \`\`\`make generate\`\`\`
+
+__From package:__ [zsh](https://www.zsh.org/) of [brew](https://docs.brew.sh/) :  Shell designed for interactive use
+
+---
+
+### Generate some code in the console
+
+> Generate some of the boilerplate code that has to be manually added
+
+__Motivation:__ Boost the development process with contextual snippets
+
+__When to use it:__ When changing model
+
+__Run:__ \`\`\`make assist\`\`\`
+
+__From package:__ [zsh](https://www.zsh.org/) of [brew](https://docs.brew.sh/) :  Shell designed for interactive use
+
+---
+
 ### Normalize the code structure
 
 > Normalize the code structure using baldrick (global version)
@@ -268,6 +366,23 @@ Array [
   },
   Object {
     "makeLines": Array [
+      "elm-format src/ --yes",
+      "elm-format tests/ --yes",
+    ],
+    "name": "beautify",
+    "parentMakeTask": undefined,
+    "title": "Beautify Elm source code",
+  },
+  Object {
+    "makeLines": Array [
+      "elm diff",
+    ],
+    "name": "diff",
+    "parentMakeTask": undefined,
+    "title": "Detects Elm code API changes",
+  },
+  Object {
+    "makeLines": Array [
       "markdown check",
       "markdown check -s .github/",
     ],
@@ -280,9 +395,18 @@ Array [
       "markdown fix",
       "markdown fix -s .github/",
     ],
-    "name": "md:fix",
+    "name": "md-fix",
     "parentMakeTask": undefined,
     "title": "Markdown fix",
+  },
+  Object {
+    "makeLines": Array [
+      "elm install -y",
+      "pushd tests && elm install -y && popd",
+    ],
+    "name": "install",
+    "parentMakeTask": undefined,
+    "title": "Install local dependencies",
   },
   Object {
     "makeLines": Array [
@@ -329,7 +453,43 @@ Array [
   },
   Object {
     "makeLines": Array [
-      "npx baldrick-elm generate -f lib -ga 'mycompany' -ch 'Great Company' -cy 2020 -l MIT && yarn md:fix",
+      "rm -rf generated",
+    ],
+    "name": "reset-generated",
+    "parentMakeTask": undefined,
+    "title": "Reset generated folders",
+  },
+  Object {
+    "makeLines": Array [
+      "npx baldrick-whisker@latest render script/data/project.json script/template/generate.hbs script/generate.sh",
+      "npx baldrick-whisker@latest render script/data/project.json script/template/assist.hbs script/assist.sh",
+    ],
+    "name": "pre-generate",
+    "parentMakeTask": undefined,
+    "title": "Prepare scripts for code generation",
+  },
+  Object {
+    "makeLines": Array [
+      "mkdir generated",
+      "sh script/generate.sh",
+      "make beautify",
+      "make test",
+    ],
+    "name": "generate",
+    "parentMakeTask": "reset-generated pre-generate",
+    "title": "Generate some Elm Code",
+  },
+  Object {
+    "makeLines": Array [
+      "sh script/assist.sh",
+    ],
+    "name": "assist",
+    "parentMakeTask": "pre-generate",
+    "title": "Generate some code in the console",
+  },
+  Object {
+    "makeLines": Array [
+      "npx baldrick-elm generate -f lib -ga 'mycompany' -ch 'Great Company' -cy 2020 -l MIT && make md-fix",
     ],
     "name": "norm",
     "parentMakeTask": undefined,

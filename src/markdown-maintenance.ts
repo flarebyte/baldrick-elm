@@ -25,6 +25,17 @@ const yarnPackage: MdPackage = {
   },
 };
 
+const elmPackage: MdPackage = {
+  name: 'elm',
+  installationType: 'npm.dev',
+  description: 'Dependency management',
+  homepage: 'https://guide.elm-lang.org/install/elm.html',
+  repository: {
+    type: 'git',
+    url: 'https://github.com/elm',
+  },
+};
+
 const makefilePackage: MdPackage = {
   name: 'makefile',
   installationType: 'brew',
@@ -81,6 +92,92 @@ const analyzeCmd = (): MdCommand => ({
   makeLines: ['elm-analyse -s -o'],
 });
 
+const beautifyCmd: MdCommand = {
+  name: 'beautify',
+  title: 'Beautify Elm source code',
+  description:
+    'Formats Elm source code according to a standard set of rules based on the official Elm Style Guide',
+  motivation: 'Make the code more consistent and avoid bugs',
+  context: 'Before compilation',
+  run: 'make beautify',
+  partOf: makefilePackage,
+  examples: [],
+  makeLines: ['elm-format src/ --yes', 'elm-format tests/ --yes'],
+};
+
+const diffCmd: MdCommand = {
+  name: 'diff',
+  title: 'Detects Elm code API changes',
+  description: 'See what changed in the package between versions',
+  motivation:
+    'Sometimes a MAJOR change is not actually very big, so this can help you plan your upgrade timelines',
+  context: 'Before compilation',
+  run: 'make diff',
+  partOf: elmPackage,
+  examples: [],
+  makeLines: ['elm diff'],
+};
+
+const resetGeneratedCmd: MdCommand = {
+  name: 'reset-generated',
+  title: 'Reset generated folders',
+  description: 'Delete the generated folder',
+  motivation: 'Start generation from a clean slate',
+  context: 'Before generation',
+  run: 'make reset-generated',
+  partOf: makefilePackage,
+  examples: [],
+  makeLines: ['rm -rf generated'],
+};
+
+const preGenerateCmd: MdCommand = {
+  name: 'pre-generate',
+  title: 'Prepare scripts for code generation',
+  description: 'Generate the scripts used for code generation',
+  motivation:
+    'The generation scripts contain a fair amount of boilerplate code that can be easily generated',
+  context: 'Before generation',
+  run: 'make pre-generate',
+  partOf: zshPackage,
+  examples: [],
+  makeLines: [
+    'npx baldrick-whisker@latest render script/data/project.json script/template/generate.hbs script/generate.sh',
+    'npx baldrick-whisker@latest render script/data/project.json script/template/assist.hbs script/assist.sh',
+  ],
+};
+
+const generateCmd: MdCommand = {
+  name: 'generate',
+  title: 'Generate some Elm Code',
+  description: 'Generate some of the boilerplate code for the Elm project',
+  motivation: 'Standardize and boost the development process',
+  context: 'When changing model',
+  run: 'make generate',
+  partOf: zshPackage,
+  examples: [],
+  makeLines: [
+    'mkdir generated',
+    'sh script/generate.sh',
+    'make beautify',
+    'make test',
+  ],
+  parentMakeTask: 'reset-generated pre-generate',
+};
+
+const assistCmd: MdCommand = {
+  name: 'assist',
+  title: 'Generate some code in the console',
+  description:
+    'Generate some of the boilerplate code that has to be manually added',
+  motivation: 'Boost the development process with contextual snippets',
+  context: 'When changing model',
+  run: 'make assist',
+  partOf: zshPackage,
+  examples: [],
+  makeLines: ['sh script/assist.sh'],
+  parentMakeTask: 'pre-generate',
+};
+
 const testCmd = (): MdCommand => ({
   name: 'test',
   title: 'Unit testing',
@@ -121,6 +218,18 @@ const installGloballyCmd: MdCommand = {
     'yarn global add elm-doc-preview',
     'yarn global add elm-analyse',
   ],
+};
+
+const installCmd: MdCommand = {
+  name: 'install',
+  title: 'Install local dependencies',
+  description: 'Install some dependencies',
+  motivation: 'Before running most commands',
+  context: 'Before building',
+  run: 'make install',
+  partOf: elmPackage,
+  examples: [],
+  makeLines: ['elm install -y', 'pushd tests && elm install -y && popd'],
 };
 
 const buildCmd: MdCommand = {
@@ -200,13 +309,13 @@ const mdCmd = (): MdCommand => ({
 });
 
 const mdFixCmd = (): MdCommand => ({
-  name: 'md:fix',
+  name: 'md-fix',
   title: 'Markdown fix',
   description:
     'Modify the markdown documents to ensure they follow some consistent guidelines',
   motivation: 'Make the markdown documents consistent in style',
   context: 'Before publishing',
-  run: 'make md:fix',
+  run: 'make md-fix',
   partOf: makefilePackage,
   examples: [],
   makeLines: ['markdown fix', 'markdown fix -s .github/'],
@@ -255,7 +364,7 @@ const normCmd = (project: CoreProject): MdCommand => {
     ? [`-${og.codacyId.shortFlag}`, project.codacyId]
     : [];
 
-  const npmScript = [...npmMandatoryScript, ...codacyScript, '&& yarn md:fix'];
+  const makeScript = [...npmMandatoryScript, ...codacyScript, '&& make md-fix'];
 
   return {
     name: 'norm',
@@ -270,7 +379,7 @@ const normCmd = (project: CoreProject): MdCommand => {
     run: 'make norm',
     partOf: baldrickScaffoldingPackage,
     examples: [],
-    makeLines: [npmScript.join(' ')],
+    makeLines: [makeScript.join(' ')],
   };
 };
 
@@ -294,14 +403,21 @@ const devCommands = (): MdCommand[] => [
   previewDocCmd,
   githubCmd,
   analyzeCmd(),
+  beautifyCmd,
+  diffCmd,
   mdCmd(),
   mdFixCmd(),
+  installCmd,
   installGloballyCmd,
   readyCmd,
   resetCmd,
   testCmd(),
   helpCmd,
   gitCommitFileCmd,
+  resetGeneratedCmd,
+  preGenerateCmd,
+  generateCmd,
+  assistCmd,
 ];
 
 const maintenanceOverview = () =>
