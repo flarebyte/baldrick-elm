@@ -5,12 +5,7 @@ describe('conf-vscode-snippet.test', () => {
     const actual = vsCodeSnippets;
     expect(Object.keys(actual)).toMatchInlineSnapshot(`
       Array [
-        "filter-no-null",
-        "eslint-disable-line",
-        "eslint-disable-next-line",
-        "jest-regression-inline",
-        "mock-console",
-        "stringify",
+        "type alias",
       ]
     `);
   });
