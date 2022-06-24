@@ -85,7 +85,8 @@ export const analyzeCmd = (): MdCommand => ({
 const beautifyCmd: MdCommand = {
   name: 'beautify',
   title: 'Beautify Elm source code',
-  description: 'Formats Elm source code according to a standard set of rules based on the official Elm Style Guide',
+  description:
+    'Formats Elm source code according to a standard set of rules based on the official Elm Style Guide',
   motivation: 'Make the code more consistent and avoid bugs',
   context: 'Before compilation',
   run: 'make beautify',
@@ -97,7 +98,8 @@ const diffCmd: MdCommand = {
   name: 'diff',
   title: 'Detects Elm code API changes',
   description: 'See what changed in the package between versions',
-  motivation: 'Sometimes a MAJOR change is not actually very big, so this can help you plan your upgrade timelines',
+  motivation:
+    'Sometimes a MAJOR change is not actually very big, so this can help you plan your upgrade timelines',
   context: 'Before compilation',
   run: 'make diff',
   partOf: elmPackage,
@@ -119,7 +121,8 @@ const preGenerateCmd: MdCommand = {
   name: 'pre-generate',
   title: 'Prepare scripts for code generation',
   description: 'Generate the scripts used for code generation',
-  motivation: 'The generation scripts contain a fair amount of boilerplate code that can be easily generated',
+  motivation:
+    'The generation scripts contain a fair amount of boilerplate code that can be easily generated',
   context: 'Before generation',
   run: 'make pre-generate',
   partOf: zshPackage,
@@ -149,7 +152,8 @@ const generateCmd: MdCommand = {
 const assistCmd: MdCommand = {
   name: 'assist',
   title: 'Generate some code in the console',
-  description: 'Generate some of the boilerplate code that has to be manually added',
+  description:
+    'Generate some of the boilerplate code that has to be manually added',
   motivation: 'Boost the development process with contextual snippets',
   context: 'When changing model',
   run: 'make assist',
@@ -256,7 +260,8 @@ const githubCmd: MdCommand = {
 export const readyCmd: MdCommand = {
   name: 'ready',
   title: 'Ready for publishing',
-  description: 'Run a sequence of commands to check that the library is ready to be published',
+  description:
+    'Run a sequence of commands to check that the library is ready to be published',
   motivation: 'Detect quality flaws before pushing the code',
   context: 'Before pushing a branch',
   run: 'make ready',
@@ -268,24 +273,32 @@ export const readyCmd: MdCommand = {
 const mdCmd = (): MdCommand => ({
   name: 'md',
   title: 'Markdown check',
-  description: 'Checks that the markdown documents follows some consistent guidelines',
+  description:
+    'Checks that the markdown documents follows some consistent guidelines',
   motivation: 'Make the markdown documents consistent in style',
   context: 'Before publishing',
   run: 'make md',
   partOf: makefilePackage,
   examples: [],
-  makeLines: ['markdown check', 'markdown check -s .github/'],
+  makeLines: [
+    'npx baldrick-dev-ts markdown check',
+    'npx baldrick-dev-ts markdown check -s .github/',
+  ],
 });
 const mdFixCmd = (): MdCommand => ({
   name: 'md-fix',
   title: 'Markdown fix',
-  description: 'Modify the markdown documents to ensure they follow some consistent guidelines',
+  description:
+    'Modify the markdown documents to ensure they follow some consistent guidelines',
   motivation: 'Make the markdown documents consistent in style',
   context: 'Before publishing',
   run: 'make md-fix',
   partOf: makefilePackage,
   examples: [],
-  makeLines: ['markdown fix', 'markdown fix -s .github/'],
+  makeLines: [
+    'npx baldrick-dev-ts markdown fix',
+    'npx baldrick-dev-ts markdown fix -s .github/',
+  ],
 });
 const helpCmd: MdCommand = {
   name: 'help',

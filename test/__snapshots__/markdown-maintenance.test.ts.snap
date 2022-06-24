@@ -383,8 +383,8 @@ Array [
   },
   Object {
     "makeLines": Array [
-      "markdown check",
-      "markdown check -s .github/",
+      "npx baldrick-dev-ts markdown check",
+      "npx baldrick-dev-ts markdown check -s .github/",
     ],
     "name": "md",
     "parentMakeTask": undefined,
@@ -392,8 +392,8 @@ Array [
   },
   Object {
     "makeLines": Array [
-      "markdown fix",
-      "markdown fix -s .github/",
+      "npx baldrick-dev-ts markdown fix",
+      "npx baldrick-dev-ts markdown fix -s .github/",
     ],
     "name": "md-fix",
     "parentMakeTask": undefined,

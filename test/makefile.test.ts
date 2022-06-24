@@ -61,13 +61,13 @@ describe('makefile', () => {
 
       # Markdown check
       md: 
-      	markdown check
-      	markdown check -s .github/
+      	npx baldrick-dev-ts markdown check
+      	npx baldrick-dev-ts markdown check -s .github/
 
       # Markdown fix
       md-fix: 
-      	markdown fix
-      	markdown fix -s .github/
+      	npx baldrick-dev-ts markdown fix
+      	npx baldrick-dev-ts markdown fix -s .github/
 
       # Normalize the code structure
       norm: 
