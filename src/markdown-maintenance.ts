@@ -1,5 +1,13 @@
 import { markdownTable } from 'markdown-table';
-import { analyzeCmd, testCmd, buildCmd, readyCmd, docCmd, devCommands, normCmd } from './dev-tasks';
+import {
+  analyzeCmd,
+  testCmd,
+  buildCmd,
+  readyCmd,
+  docCmd,
+  devCommands,
+  normCmd,
+} from './dev-tasks';
 import { commandToMd } from './markdown.js';
 import { CoreProject, MakefileCommand } from './model.js';
 

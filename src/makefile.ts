@@ -1,10 +1,7 @@
 import { getMakefileCommands } from './markdown-maintenance.js';
 import { CoreProject, MakefileCommand } from './model.js';
 
-const sortedByName = (
-  a: { name: string },
-  b: { name: string }
-): number => {
+const sortedByName = (a: { name: string }, b: { name: string }): number => {
   if (a.name > b.name) return 1;
   if (a.name < b.name) return -1;
   return 0;
