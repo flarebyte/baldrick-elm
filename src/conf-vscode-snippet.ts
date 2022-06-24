@@ -1,4 +1,4 @@
-import { VsCodeSnippet, VsCodeSnippetObj } from './model';
+import { VsCodeSnippet, VsCodeSnippetObj } from './model.js';
 
 const scope = 'elm,elm';
 

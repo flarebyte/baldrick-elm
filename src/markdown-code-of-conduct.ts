@@ -1,4 +1,4 @@
-import { CoreProject } from './model';
+import { CoreProject } from './model.js';
 
 export const codeOfConductMd = (proj: CoreProject) => `
 # Contributor Covenant Code of Conduct

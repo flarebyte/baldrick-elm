@@ -7,7 +7,7 @@ import {
   docCmd,
   devCommands,
   normCmd,
-} from './dev-tasks';
+} from './dev-tasks.js';
 import { commandToMd } from './markdown.js';
 import { CoreProject, MakefileCommand } from './model.js';
 

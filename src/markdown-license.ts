@@ -1,4 +1,4 @@
-import { CoreProject } from './model';
+import { CoreProject } from './model.js';
 
 const copyrightRangeIfAny = (proj: CoreProject): string =>
   proj.copyrightStartYear === proj.copyrightEndYear
