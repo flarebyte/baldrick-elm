@@ -5,11 +5,10 @@ export const defaultGithubWorkflow = (proj: CoreProject) => ({
   on: ['push'],
   jobs: {
     build: {
-      name: 'Build, lint, and test on Node ${{ matrix.node }} and ${{ matrix.os }}',
+      name: 'Build, lint, and test ${{ matrix.os }}',
       'runs-on': '${{ matrix.os }}',
       strategy: {
         matrix: {
-          node: ['14.x', '16.x'],
           os: ['ubuntu-latest', 'macOS-latest'],
         },
       },
@@ -19,31 +18,25 @@ export const defaultGithubWorkflow = (proj: CoreProject) => ({
           uses: 'actions/checkout@v2',
         },
         {
-          name: 'Use Node ${{ matrix.node }}',
-          uses: 'actions/setup-node@v2',
+          name: 'Use Elm',
+          uses: 'jorelali/setup-elm@v3',
           with: {
-            'node-version': '${{ matrix.node }}',
+            'elm-version': '0.19.1',
           },
         },
         {
           name: 'Installation',
-          run: 'yarn install',
+          run: 'elm install -y',
         },
         {
-          name: 'Static code analysis',
-          run: proj.feature.includes('no:lint')
-            ? 'yarn lint:ci || echo "Some linting failed"'
-            : 'yarn lint:ci',
+          name: 'Installation for tests',
+          run: 'pushd tests && elm install -y && popd',
         },
         {
           name: 'Test',
           run: proj.feature.includes('no:test')
-            ? 'yarn test:ci || echo "Some unit tests failed"'
-            : 'yarn test:ci',
-        },
-        {
-          name: 'Build',
-          run: 'yarn build',
+            ? 'elm-test || echo "Some unit tests failed"'
+            : 'elm-test',
         },
       ],
     },
