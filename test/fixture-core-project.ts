@@ -4,7 +4,7 @@ export const libCoreProject: CoreProject = {
   name: 'scratchbook',
   githubAccount: 'mycompany',
   feature: ['lib'],
-  license: 'MIT',
+  license: 'BSD3',
   copyrightStartYear: 2020,
   copyrightEndYear: 2021,
   copyrightHolder: 'Great Company',

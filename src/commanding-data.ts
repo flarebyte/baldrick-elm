@@ -31,7 +31,7 @@ const feature: CmdOption = {
   shortFlag: 'f',
   longFlag: 'feature',
   description: 'List of features',
-  choices: ['lib', 'cli', 'npx', 'gen', 'no:lint', 'no:test'],
+  choices: ['lib', 'gen', 'no:test'],
   mandatory: true,
   variadic: true,
 };
@@ -40,8 +40,8 @@ const license: CmdOption = {
   shortFlag: 'l',
   longFlag: 'license',
   description: 'Open source license if any',
-  defaultValue: 'MIT',
-  choices: ['MIT', 'UNLICENSED'],
+  defaultValue: 'BSD3',
+  choices: ['BSD3', 'UNLICENSED'],
   mandatory: false,
   variadic: false,
 };
