@@ -489,7 +489,7 @@ Array [
   },
   Object {
     "makeLines": Array [
-      "npx baldrick-elm generate -f lib -ga 'mycompany' -ch 'Great Company' -cy 2020 -l MIT && make md-fix",
+      "npx baldrick-elm generate -f lib -ga 'mycompany' -ch 'Great Company' -cy 2020 -l BSD3 && make md-fix",
     ],
     "name": "norm",
     "parentMakeTask": undefined,

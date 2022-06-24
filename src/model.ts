@@ -9,9 +9,9 @@ export interface Scripts {
   [key: string]: string;
 }
 
-type ProjectType = 'lib' | 'cli';
+type ProjectType = 'lib';
 
-export type SupportedFeature = ProjectType | 'npx' | 'no:lint' | 'no:test';
+export type SupportedFeature = ProjectType | 'no:test';
 
 export interface GenerateActionOpts {
   feature: SupportedFeature[];

@@ -71,7 +71,7 @@ describe('makefile', () => {
 
       # Normalize the code structure
       norm: 
-      	npx baldrick-elm generate -f lib -ga 'mycompany' -ch 'Great Company' -cy 2020 -l MIT && make md-fix
+      	npx baldrick-elm generate -f lib -ga 'mycompany' -ch 'Great Company' -cy 2020 -l BSD3 && make md-fix
 
       # Prepare scripts for code generation
       pre-generate: 
