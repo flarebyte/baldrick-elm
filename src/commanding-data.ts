@@ -73,6 +73,15 @@ const codacyId: CmdOption = {
   variadic: false,
 };
 
+const currentDir: CmdOption = {
+  shortFlag: 'cd',
+  longFlag: 'current-dir',
+  description: 'New current working directory',
+  choices: [],
+  mandatory: false,
+  variadic: false,
+};
+
 export const cmdOptionsGenerator: CmdOptionsGenerator = {
   feature,
   name,
@@ -82,4 +91,5 @@ export const cmdOptionsGenerator: CmdOptionsGenerator = {
   copyrightStartYear,
   bin,
   codacyId,
+  currentDir,
 };

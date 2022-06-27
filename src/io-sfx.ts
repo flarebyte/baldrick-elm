@@ -1,4 +1,4 @@
-import { readFile, writeFile, appendFile, mkdir } from 'node:fs/promises';
+import jetpack from 'fs-jetpack';
 import YAML from 'yaml';
 import { codeOfConductMd } from './markdown-code-of-conduct.js';
 import { contributingMd } from './markdown-contributing.js';
@@ -22,6 +22,7 @@ import { commitMessage } from './commit-message.js';
 import { glossaryMd } from './markdown-glossary.js';
 import { computeCoreProject } from './compute-core-project.js';
 import { makefile } from './makefile.js';
+import { FSJetpack } from 'fs-jetpack/types.js';
 
 export const toJsonString = (value: object): string => {
   return JSON.stringify(value, undefined, 2);
@@ -31,125 +32,127 @@ export const toYamlString = (value: object): string => {
   return YAML.stringify(value);
 };
 
-const readReadme = async (): Promise<string> => {
+const createWorkspace = (core: CoreProject): FSJetpack =>
+  core.currentDir ? jetpack.cwd(core.currentDir) : jetpack.cwd('.');
+
+const readReadme = async (workspace: FSJetpack): Promise<string> => {
   try {
-    return await readFile('./README.md', 'utf8');
+    return (await workspace.readAsync('./README.md', 'utf8')) || '';
   } catch {
     return '';
   }
 };
 
-const writeReadme = async (core: CoreProject) => {
-  const existingReadme = await readReadme();
+const writeReadme = async (workspace: FSJetpack, core: CoreProject) => {
+  const existingReadme = await readReadme(workspace);
   const newReadme = toReadmeMd(core, existingReadme);
-  await writeFile('./README.md', newReadme, 'utf8');
+  await workspace.writeAsync('./README.md', newReadme);
 };
 
-const readTechnicalDesign = async (): Promise<string> => {
+const readTechnicalDesign = async (workspace: FSJetpack): Promise<string> => {
   try {
-    return await readFile('./TECHNICAL_DESIGN.md', 'utf8');
+    return (await workspace.readAsync('./TECHNICAL_DESIGN.md', 'utf8')) || '';
   } catch {
     return '';
   }
 };
 
-const writeTechnicalDesign = async (core: CoreProject) => {
-  const existingTechnicalDesign = await readTechnicalDesign();
+const writeTechnicalDesign = async (
+  workspace: FSJetpack,
+  core: CoreProject
+) => {
+  const existingTechnicalDesign = await readTechnicalDesign(workspace);
   const newTechnicalDesign = toTechnicalDesignMd(core, existingTechnicalDesign);
-  await writeFile('./TECHNICAL_DESIGN.md', newTechnicalDesign, 'utf8');
+  await workspace.writeAsync('./TECHNICAL_DESIGN.md', newTechnicalDesign);
 };
 
-const writeCodeOfConducts = async (proj: CoreProject) => {
-  await writeFile('./CODE_OF_CONDUCT.md', codeOfConductMd(proj), 'utf8');
+const writeCodeOfConducts = async (workspace: FSJetpack, proj: CoreProject) => {
+  await workspace.writeAsync('./CODE_OF_CONDUCT.md', codeOfConductMd(proj));
 };
 
-const writeContributing = async () => {
-  await writeFile('./CONTRIBUTING.md', contributingMd, 'utf8');
+const writeContributing = async (workspace: FSJetpack) => {
+  await workspace.writeAsync('./CONTRIBUTING.md', contributingMd);
 };
 
-const writeMaintenance = async (proj: CoreProject) => {
-  await writeFile('./MAINTENANCE.md', maintenanceMd(proj), 'utf8');
+const writeMaintenance = async (workspace: FSJetpack, proj: CoreProject) => {
+  await workspace.writeAsync('./MAINTENANCE.md', maintenanceMd(proj));
 };
 
-const writeGitIgnore = async () => {
-  await writeFile('.gitignore', gitIgnoreConfig, 'utf8');
+const writeGitIgnore = async (workspace: FSJetpack) => {
+  await workspace.writeAsync('.gitignore', gitIgnoreConfig);
 };
 
-const writeEditorConfig = async () => {
-  await writeFile('.editorconfig', editorConfig, 'utf8');
+const writeEditorConfig = async (workspace: FSJetpack) => {
+  await workspace.writeAsync('.editorconfig', editorConfig);
 };
 
-const writeLicense = async (proj: CoreProject) => {
-  await writeFile('./LICENSE', licenseMd(proj), 'utf8');
+const writeLicense = async (workspace: FSJetpack, proj: CoreProject) => {
+  await workspace.writeAsync('./LICENSE', licenseMd(proj));
 };
 
-const writeMakefile = async (proj: CoreProject) => {
-  await writeFile('./Makefile', makefile(proj), 'utf8');
+const writeMakefile = async (workspace: FSJetpack, proj: CoreProject) => {
+  await workspace.writeAsync('./Makefile', makefile(proj));
 };
-const createGithubWorkflowDir = async () => {
-  await mkdir('.github/workflows', { recursive: true });
-  await mkdir('.github/ISSUE_TEMPLATE', { recursive: true });
+const createGithubWorkflowDir = async (workspace: FSJetpack) => {
+  await workspace.dir('.github/workflows');
+  await workspace.dir('.github/ISSUE_TEMPLATE');
 };
 
-const writeWorkflowConfig = async (core: CoreProject) => {
-  await writeFile(
+const writeWorkflowConfig = async (workspace: FSJetpack, core: CoreProject) => {
+  await workspace.writeAsync(
     '.github/workflows/main.yml',
-    toYamlString(defaultGithubWorkflow(core)),
-    'utf8'
+    toYamlString(defaultGithubWorkflow(core))
   );
 };
 
-const writePullRequestMd = async () => {
-  await writeFile('.github/pull_request_template.md', pullRequestMd, 'utf8');
+const writePullRequestMd = async (workspace: FSJetpack) => {
+  await workspace.writeAsync('.github/pull_request_template.md', pullRequestMd);
 };
 
-const writeFeatureRequestYaml = async () => {
-  await writeFile(
+const writeFeatureRequestYaml = async (workspace: FSJetpack) => {
+  await workspace.writeAsync(
     '.github/ISSUE_TEMPLATE/feature_request.yaml',
-    toYamlString(featureRequest),
-    'utf8'
+    toYamlString(featureRequest)
   );
 };
 
-const writeBugReportYaml = async () => {
-  await writeFile(
+const writeBugReportYaml = async (workspace: FSJetpack) => {
+  await workspace.writeAsync(
     '.github/ISSUE_TEMPLATE/bug_report.yaml',
-    toYamlString(bugReport),
-    'utf8'
+    toYamlString(bugReport)
   );
 };
 
-const createVisualCodeDir = async () => {
-  await mkdir('.vscode', { recursive: true });
+const createVisualCodeDir = async (workspace: FSJetpack) => {
+  await workspace.dir('.vscode');
 };
 
-const writeVsCodeSnippets = async () => {
-  await writeFile(
+const writeVsCodeSnippets = async (workspace: FSJetpack) => {
+  await workspace.writeAsync(
     '.vscode/baldrick.code-snippets',
-    toJsonString(vsCodeSnippets),
-    'utf8'
+    toJsonString(vsCodeSnippets)
   );
 };
 
-const createSourceDir = async () => {
-  await mkdir('src', { recursive: true });
-  await mkdir('test', { recursive: true });
+const createSourceDir = async (workspace: FSJetpack) => {
+  await workspace.dir('src');
+  await workspace.dir('test');
 };
 
-const appendCommitMessage = async () => {
-  await appendFile('.message', commitMessage(), 'utf8');
+const appendCommitMessage = async (workspace: FSJetpack) => {
+  await workspace.append('.message', commitMessage());
 };
 
-const writeZshAlias = async () => {
-  await writeFile('.aliases.zsh', getZshAliases(), 'utf8');
+const writeZshAlias = async (workspace: FSJetpack) => {
+  await workspace.writeAsync('.aliases.zsh', getZshAliases());
 };
 
-const writeCommandHelp = async (core: CoreProject) => {
-  await writeFile('commands.txt', getCommandHelp(core), 'utf8');
+const writeCommandHelp = async (workspace: FSJetpack, core: CoreProject) => {
+  await workspace.writeAsync('commands.txt', getCommandHelp(core));
 };
 
-const writeGlossary = async () => {
-  await writeFile('GLOSSARY.md', glossaryMd(), 'utf8');
+const writeGlossary = async (workspace: FSJetpack) => {
+  await workspace.writeAsync('GLOSSARY.md', glossaryMd());
 };
 
 export const updateAll = async (
@@ -158,27 +161,28 @@ export const updateAll = async (
 ) => {
   try {
     const coreProject = computeCoreProject(ctx, opts);
-    await writeReadme(coreProject);
-    await createSourceDir();
-    await writeCodeOfConducts(coreProject);
-    await writeContributing();
-    await writeMaintenance(coreProject);
-    await writeTechnicalDesign(coreProject);
-    await writeGitIgnore();
-    await writeEditorConfig();
-    await writeLicense(coreProject);
-    await writeMakefile(coreProject);
-    await createGithubWorkflowDir();
-    await writeWorkflowConfig(coreProject);
-    await writePullRequestMd();
-    await writeFeatureRequestYaml();
-    await writeBugReportYaml();
-    await createVisualCodeDir();
-    await writeVsCodeSnippets();
-    await writeZshAlias();
-    await writeCommandHelp(coreProject);
-    await writeGlossary();
-    await appendCommitMessage();
+    const workspace = createWorkspace(coreProject);
+    await writeReadme(workspace, coreProject);
+    await createSourceDir(workspace);
+    await writeCodeOfConducts(workspace, coreProject);
+    await writeContributing(workspace);
+    await writeMaintenance(workspace, coreProject);
+    await writeTechnicalDesign(workspace, coreProject);
+    await writeGitIgnore(workspace);
+    await writeEditorConfig(workspace);
+    await writeLicense(workspace, coreProject);
+    await writeMakefile(workspace, coreProject);
+    await createGithubWorkflowDir(workspace);
+    await writeWorkflowConfig(workspace, coreProject);
+    await writePullRequestMd(workspace);
+    await writeFeatureRequestYaml(workspace);
+    await writeBugReportYaml(workspace);
+    await createVisualCodeDir(workspace);
+    await writeVsCodeSnippets(workspace);
+    await writeZshAlias(workspace);
+    await writeCommandHelp(workspace, coreProject);
+    await writeGlossary(workspace);
+    await appendCommitMessage(workspace);
   } catch (error) {
     ctx.errTermFormatter({
       title: 'Generating - update error',

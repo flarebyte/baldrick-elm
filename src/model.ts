@@ -22,6 +22,7 @@ export interface GenerateActionOpts {
   copyrightHolder?: string;
   copyrightStartYear: number;
   codacyId?: string;
+  currentDir?: string;
 }
 
 export interface GenerateRawOpts {
@@ -33,6 +34,7 @@ export interface GenerateRawOpts {
   copyrightHolder?: string;
   copyrightStartYear: string;
   codacyId?: string;
+  currentDir?: string;
 }
 
 export interface CmdOptionsGenerator {
@@ -44,6 +46,7 @@ export interface CmdOptionsGenerator {
   copyrightHolder: CmdOption;
   copyrightStartYear: CmdOption;
   codacyId: CmdOption;
+  currentDir: CmdOption;
 }
 
 export interface CoreProject extends GenerateActionOpts {

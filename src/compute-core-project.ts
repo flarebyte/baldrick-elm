@@ -19,4 +19,5 @@ export const computeCoreProject = (
   copyrightStartYear: generateOpts.copyrightStartYear,
   copyrightEndYear: ctx.currentYear,
   codacyId: generateOpts.codacyId,
+  currentDir: generateOpts.currentDir,
 });

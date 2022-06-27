@@ -33,6 +33,7 @@ Table of vocabulary found in the code base
 | to features                | 2          | feature-helper.ts            |
 | to json string             | 3          | io-sfx.ts                    |
 | to yaml string             | 3          | io-sfx.ts                    |
+| create workspace           | 2          | io-sfx.ts                    |
 | read readme                | 2          | io-sfx.ts                    |
 | write readme               | 2          | io-sfx.ts                    |
 | read technical design      | 3          | io-sfx.ts                    |
@@ -158,11 +159,11 @@ Table showing the popularity of some n-gram in the code base
 | code         | 12        |
 | cmd          | 11        |
 | get          | 10        |
+| create       | 8         |
 | generate     | 8         |
 | command      | 7         |
 | keep         | 6         |
 | find         | 6         |
-| create       | 6         |
 | vs           | 6         |
 | technical    | 6         |
 | string       | 6         |

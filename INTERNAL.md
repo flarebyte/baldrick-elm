@@ -55,6 +55,7 @@ class `index.ts`
 class `io-sfx.ts`{
   +toJsonString()
   +toYamlString()
+  - createWorkspace()
   - readReadme()
   - writeReadme()
   - readTechnicalDesign()
@@ -182,6 +183,8 @@ class `./model.js`{
   +RunnerContext()
   +GenerateActionOpts()
   +SupportedFeature()
+  +VsCodeSnippetObj()
+  +VsCodeSnippet()
   +GenerateRawOpts()
   +GenerateAction()
   +CmdOption()
@@ -210,22 +213,14 @@ class `./version.js`{
 class `node:path`{
   +path()
 }
-class `./model`{
-  +CoreProject()
-  +VsCodeSnippetObj()
-  +VsCodeSnippet()
-}
 class `./commanding-action.js`{
   +cmdGenerateAction()
 }
 class `./commanding.js`{
   +Commanding()
 }
-class `node:fs/promises`{
-  +mkdir()
-  +appendFile()
-  +writeFile()
-  +readFile()
+class `fs-jetpack`{
+  +jetpack()
 }
 class `yaml`{
   +YAML()
@@ -284,10 +279,13 @@ class `./compute-core-project.js`{
 class `./makefile.js`{
   +makefile()
 }
+class `fs-jetpack/types.js`{
+  +FSJetpack()
+}
 class `markdown-table`{
   +markdownTable()
 }
-class `./dev-tasks`{
+class `./dev-tasks.js`{
   +normCmd()
   +devCommands()
   +docCmd()
@@ -322,14 +320,14 @@ class `./utils.js`{
 `commit-message.ts`-->`./version.js`
 `compute-core-project.ts`-->`node:path`
 `compute-core-project.ts`-->`./model.js`
-`conf-vscode-snippet.ts`-->`./model`
+`conf-vscode-snippet.ts`-->`./model.js`
 `conf-workflow.ts`-->`./model.js`
 `dev-tasks.ts`-->`./commanding-data.js`
 `dev-tasks.ts`-->`./model.js`
 `feature-helper.ts`-->`./model.js`
 `index.ts`-->`./commanding-action.js`
 `index.ts`-->`./commanding.js`
-`io-sfx.ts`-->`node:fs/promises`
+`io-sfx.ts`-->`fs-jetpack`
 `io-sfx.ts`-->`yaml`
 `io-sfx.ts`-->`./markdown-code-of-conduct.js`
 `io-sfx.ts`-->`./markdown-contributing.js`
@@ -349,13 +347,14 @@ class `./utils.js`{
 `io-sfx.ts`-->`./markdown-glossary.js`
 `io-sfx.ts`-->`./compute-core-project.js`
 `io-sfx.ts`-->`./makefile.js`
+`io-sfx.ts`-->`fs-jetpack/types.js`
 `makefile.ts`-->`./markdown-maintenance.js`
 `makefile.ts`-->`./model.js`
-`markdown-code-of-conduct.ts`-->`./model`
+`markdown-code-of-conduct.ts`-->`./model.js`
 `markdown-contributing.ts`-->`./model.js`
-`markdown-license.ts`-->`./model`
+`markdown-license.ts`-->`./model.js`
 `markdown-maintenance.ts`-->`markdown-table`
-`markdown-maintenance.ts`-->`./dev-tasks`
+`markdown-maintenance.ts`-->`./dev-tasks.js`
 `markdown-maintenance.ts`-->`./markdown.js`
 `markdown-maintenance.ts`-->`./model.js`
 `markdown-readme.ts`-->`./markdown.js`
