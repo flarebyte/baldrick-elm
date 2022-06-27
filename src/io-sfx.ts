@@ -37,7 +37,7 @@ const createWorkspace = (core: CoreProject): FSJetpack =>
 
 const readReadme = async (workspace: FSJetpack): Promise<string> => {
   try {
-    return (await workspace.read('./README.md', 'utf8')) || '';
+    return (await workspace.readAsync('./README.md', 'utf8')) || '';
   } catch {
     return '';
   }
@@ -46,12 +46,12 @@ const readReadme = async (workspace: FSJetpack): Promise<string> => {
 const writeReadme = async (workspace: FSJetpack, core: CoreProject) => {
   const existingReadme = await readReadme(workspace);
   const newReadme = toReadmeMd(core, existingReadme);
-  await workspace.write('./README.md', newReadme);
+  await workspace.writeAsync('./README.md', newReadme);
 };
 
 const readTechnicalDesign = async (workspace: FSJetpack): Promise<string> => {
   try {
-    return (await workspace.read('./TECHNICAL_DESIGN.md', 'utf8')) || '';
+    return (await workspace.readAsync('./TECHNICAL_DESIGN.md', 'utf8')) || '';
   } catch {
     return '';
   }
@@ -63,83 +63,80 @@ const writeTechnicalDesign = async (
 ) => {
   const existingTechnicalDesign = await readTechnicalDesign(workspace);
   const newTechnicalDesign = toTechnicalDesignMd(core, existingTechnicalDesign);
-  await workspace.write('./TECHNICAL_DESIGN.md', newTechnicalDesign);
+  await workspace.writeAsync('./TECHNICAL_DESIGN.md', newTechnicalDesign);
 };
 
 const writeCodeOfConducts = async (workspace: FSJetpack, proj: CoreProject) => {
-  await workspace.write('./CODE_OF_CONDUCT.md', codeOfConductMd(proj));
+  await workspace.writeAsync('./CODE_OF_CONDUCT.md', codeOfConductMd(proj));
 };
 
 const writeContributing = async (workspace: FSJetpack) => {
-  await workspace.write('./CONTRIBUTING.md', contributingMd);
+  await workspace.writeAsync('./CONTRIBUTING.md', contributingMd);
 };
 
 const writeMaintenance = async (workspace: FSJetpack, proj: CoreProject) => {
-  await workspace.write('./MAINTENANCE.md', maintenanceMd(proj));
+  await workspace.writeAsync('./MAINTENANCE.md', maintenanceMd(proj));
 };
 
 const writeGitIgnore = async (workspace: FSJetpack) => {
-  await workspace.write('.gitignore', gitIgnoreConfig);
+  await workspace.writeAsync('.gitignore', gitIgnoreConfig);
 };
 
 const writeEditorConfig = async (workspace: FSJetpack) => {
-  await workspace.write('.editorconfig', editorConfig);
+  await workspace.writeAsync('.editorconfig', editorConfig);
 };
 
 const writeLicense = async (workspace: FSJetpack, proj: CoreProject) => {
-  await workspace.write('./LICENSE', licenseMd(proj));
+  await workspace.writeAsync('./LICENSE', licenseMd(proj));
 };
 
 const writeMakefile = async (workspace: FSJetpack, proj: CoreProject) => {
-  await workspace.write('./Makefile', makefile(proj));
+  await workspace.writeAsync('./Makefile', makefile(proj));
 };
 const createGithubWorkflowDir = async (workspace: FSJetpack) => {
-  await mkdir('.github/workflows', { recursive: true });
-  await mkdir('.github/ISSUE_TEMPLATE', { recursive: true });
+  await workspace.dir('.github/workflows');
+  await workspace.dir('.github/ISSUE_TEMPLATE');
 };
 
 const writeWorkflowConfig = async (workspace: FSJetpack, core: CoreProject) => {
-  await workspace.write(
+  await workspace.writeAsync(
     '.github/workflows/main.yml',
-    toYamlString(defaultGithubWorkflow(core)),
-    'utf8'
+    toYamlString(defaultGithubWorkflow(core))
   );
 };
 
 const writePullRequestMd = async (workspace: FSJetpack) => {
-  await workspace.write('.github/pull_request_template.md', pullRequestMd);
+  await workspace.writeAsync('.github/pull_request_template.md', pullRequestMd);
 };
 
 const writeFeatureRequestYaml = async (workspace: FSJetpack) => {
-  await workspace.write(
+  await workspace.writeAsync(
     '.github/ISSUE_TEMPLATE/feature_request.yaml',
     toYamlString(featureRequest)
   );
 };
 
 const writeBugReportYaml = async (workspace: FSJetpack) => {
-  await workspace.write(
+  await workspace.writeAsync(
     '.github/ISSUE_TEMPLATE/bug_report.yaml',
-    toYamlString(bugReport),
-    'utf8'
+    toYamlString(bugReport)
   );
 };
 
 const createVisualCodeDir = async (workspace: FSJetpack) => {
-  await mkdir('.vscode', { recursive: true });
+  await workspace.dir('.vscode');
 };
 
 const writeVsCodeSnippets = async (workspace: FSJetpack) => {
-  await workspace.write(
+  await workspace.writeAsync(
     '.vscode/baldrick.code-snippets',
-    toJsonString(vsCodeSnippets),
-    'utf8'
+    toJsonString(vsCodeSnippets)
   );
 };
 
 const createSourceDir = async (workspace: FSJetpack) => {
-  await mkdir('src', { recursive: true });
-  await mkdir('test', { recursive: true });
+  await workspace.dir('src');
+  await workspace.dir('test');
 };
 
 const appendCommitMessage = async (workspace: FSJetpack) => {
@@ -147,15 +144,15 @@ const appendCommitMessage = async (workspace: FSJetpack) => {
 };
 
 const writeZshAlias = async (workspace: FSJetpack) => {
-  await workspace.write('.aliases.zsh', getZshAliases());
+  await workspace.writeAsync('.aliases.zsh', getZshAliases());
 };
 
 const writeCommandHelp = async (workspace: FSJetpack, core: CoreProject) => {
-  await workspace.write('commands.txt', getCommandHelp(core));
+  await workspace.writeAsync('commands.txt', getCommandHelp(core));
 };
 
 const writeGlossary = async (workspace: FSJetpack) => {
-  await workspace.write('GLOSSARY.md', glossaryMd());
+  await workspace.writeAsync('GLOSSARY.md', glossaryMd());
 };
 
 export const updateAll = async (
