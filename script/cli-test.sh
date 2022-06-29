@@ -8,3 +8,5 @@ yarn cli generate -cd report/shell-tests -f lib -ga 'flarebyte' -ch 'Flarebyte.c
 (ls report/shell-tests/LICENSE && echo "✅ OK LICENSE") || echo "❌ KO LICENSE"
 (ls report/shell-tests/README.md && echo "✅ OK README.md") || echo "❌ KO README.md"
 (ls report/shell-tests/MAINTENANCE.md && echo "✅ OK MAINTENANCE.md") || echo "❌ KO MAINTENANCE.md"
+cd report/shell-tests
+make whisker-norm

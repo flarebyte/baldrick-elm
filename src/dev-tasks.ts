@@ -322,6 +322,31 @@ const actCmd: MdCommand = {
   examples: [],
   makeLines: [],
 };
+
+const whiskerNormCmd = (project: CoreProject): MdCommand => {
+  const { githubAccount, copyrightHolder } = project;
+  const codeOfConduct = JSON.stringify({ githubAccount, copyrightHolder });
+  return {
+    name: 'whisker-norm',
+    title: 'Normalize the project with baldrick-whisker',
+    description: 'Generate some scaffolding using some handlebars templates',
+    motivation: 'Externalize scaffolding outside close source code',
+    context: 'Before running normalization',
+    run: 'make whisker-norm',
+    partOf: makefilePackage,
+    examples: [],
+    makeLines: [
+      'mkdir -p .vscode',
+      'mkdir -p .github/workflows',
+      'mkdir -p .github/ISSUE_TEMPLATE',
+      'npx baldrick-whisker@latest object --no-ext .vscode/baldrick.code-snippets.json github:flarebyte:baldrick-reserve:data/elm/snippet.yaml',
+      'npx baldrick-whisker@latest object .github/ISSUE_TEMPLATE/bug_report.yaml github:flarebyte:baldrick-reserve:data/elm/bug-report.yaml',
+      'npx baldrick-whisker@latest object .github/ISSUE_TEMPLATE/feature_request.yaml github:flarebyte:baldrick-reserve:data/elm/feature-request.yaml',
+      'npx baldrick-whisker@latest object .github/workflows/main.yml github:flarebyte:baldrick-reserve:data/elm/workflow-main.yml',
+      `npx baldrick-whisker@latest render .github/ISSUE_TEMPLATE/bug_report.yaml github:flarebyte:baldrick-reserve:template/code-of-conduct.handlebars CODE_OF_CONDUCT.md --config '${codeOfConduct}'`,
+    ],
+  };
+};
 const og = cmdOptionsGenerator;
 export const normCmd = (project: CoreProject): MdCommand => {
   const npmMandatoryScript = [
@@ -358,6 +383,7 @@ export const normCmd = (project: CoreProject): MdCommand => {
     partOf: baldrickScaffoldingPackage,
     examples: [],
     makeLines: [makeScript.join(' ')],
+    parentMakeTask: 'whisker-norm',
   };
 };
 const gitCommitFileCmd: MdCommand = {
@@ -372,7 +398,7 @@ const gitCommitFileCmd: MdCommand = {
   zshAlias: ['gcf', 'git add . && git commit -F .message && rm .message'],
   makeLines: [],
 };
-export const devCommands = (): MdCommand[] => [
+export const devCommands = (project: CoreProject): MdCommand[] => [
   actCmd,
   buildCmd,
   docCmd,
@@ -394,4 +420,5 @@ export const devCommands = (): MdCommand[] => [
   preGenerateCmd,
   generateCmd,
   assistCmd,
+  whiskerNormCmd(project),
 ];

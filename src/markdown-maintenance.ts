@@ -26,7 +26,7 @@ const maintenanceOverview = () =>
   ]);
 
 export const maintenanceMd = (project: CoreProject): string => {
-  const cmds = [...devCommands(), normCmd(project)];
+  const cmds = [...devCommands(project), normCmd(project)];
   const cmdSections: string[] = cmds.map(commandToMd);
   return [
     '# Maintenance of the code',
@@ -41,7 +41,7 @@ export const maintenanceMd = (project: CoreProject): string => {
 const removeNulls = <S>(value: S | undefined): value is S => value != undefined;
 
 export const getMakefileCommands = (project: CoreProject): MakefileCommand[] =>
-  [...devCommands(), normCmd(project)]
+  [...devCommands(project), normCmd(project)]
     .map((cmd) =>
       cmd.makeLines.length > 0 || cmd.parentMakeTask
         ? {
@@ -53,8 +53,8 @@ export const getMakefileCommands = (project: CoreProject): MakefileCommand[] =>
         : undefined
     )
     .filter(removeNulls);
-export const getZshAliases = (): string => {
-  const commands = devCommands()
+export const getZshAliases = (project: CoreProject): string => {
+  const commands = devCommands(project)
     .map((cmd) => cmd.zshAlias)
     .filter(removeNulls)
     .map(([name, command]) => `alias ${name}='${command}'`);
@@ -63,7 +63,7 @@ export const getZshAliases = (): string => {
 };
 
 export const getCommandHelp = (project: CoreProject): string => {
-  const commands = [...devCommands(), normCmd(project)];
+  const commands = [...devCommands(project), normCmd(project)];
 
   const runMaxLength = Math.max(...commands.map((cmd) => cmd.run.length));
 

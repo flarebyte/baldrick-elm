@@ -16,7 +16,7 @@ describe('Maintenance documentation', () => {
   });
 
   it('produces a list of zsh aliases', () => {
-    expect(getZshAliases()).toMatchInlineSnapshot(
+    expect(getZshAliases(libCoreProject)).toMatchInlineSnapshot(
       `"alias gcf='git add . && git commit -F .message && rm .message'"`
     );
   });
@@ -45,7 +45,8 @@ describe('Maintenance documentation', () => {
       make ready            Run a sequence of commands to check that the library is ready to be published
       make reset            Delete the dist and report folder
       make reset-generated  Delete the generated folder
-      make test             Run the unit tests"
+      make test             Run the unit tests
+      make whisker-norm     Generate some scaffolding using some handlebars templates"
     `);
   });
 });

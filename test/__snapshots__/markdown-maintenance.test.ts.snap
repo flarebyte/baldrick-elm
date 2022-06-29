@@ -309,6 +309,20 @@ __From package:__ [zsh](https://www.zsh.org/) of [brew](https://docs.brew.sh/) :
 
 ---
 
+### Normalize the project with baldrick-whisker
+
+> Generate some scaffolding using some handlebars templates
+
+__Motivation:__ Externalize scaffolding outside close source code
+
+__When to use it:__ Before running normalization
+
+__Run:__ \`\`\`make whisker-norm\`\`\`
+
+__From package:__ [makefile](https://opensource.com/article/18/8/what-how-makefile) of [brew](https://docs.brew.sh/) :  Build management
+
+---
+
 ### Normalize the code structure
 
 > Normalize the code structure using baldrick (global version)
@@ -489,10 +503,25 @@ Array [
   },
   Object {
     "makeLines": Array [
+      "mkdir -p .vscode",
+      "mkdir -p .github/workflows",
+      "mkdir -p .github/ISSUE_TEMPLATE",
+      "npx baldrick-whisker@latest object --no-ext .vscode/baldrick.code-snippets.json github:flarebyte:baldrick-reserve:data/elm/snippet.yaml",
+      "npx baldrick-whisker@latest object .github/ISSUE_TEMPLATE/bug_report.yaml github:flarebyte:baldrick-reserve:data/elm/bug-report.yaml",
+      "npx baldrick-whisker@latest object .github/ISSUE_TEMPLATE/feature_request.yaml github:flarebyte:baldrick-reserve:data/elm/feature-request.yaml",
+      "npx baldrick-whisker@latest object .github/workflows/main.yml github:flarebyte:baldrick-reserve:data/elm/workflow-main.yml",
+      "npx baldrick-whisker@latest render .github/ISSUE_TEMPLATE/bug_report.yaml github:flarebyte:baldrick-reserve:template/code-of-conduct.handlebars CODE_OF_CONDUCT.md --config '{\\"githubAccount\\":\\"mycompany\\",\\"copyrightHolder\\":\\"Great Company\\"}'",
+    ],
+    "name": "whisker-norm",
+    "parentMakeTask": undefined,
+    "title": "Normalize the project with baldrick-whisker",
+  },
+  Object {
+    "makeLines": Array [
       "npx baldrick-elm generate -f lib -ga 'mycompany' -ch 'Great Company' -cy 2020 -l BSD3 && make md-fix",
     ],
     "name": "norm",
-    "parentMakeTask": undefined,
+    "parentMakeTask": "whisker-norm",
     "title": "Normalize the code structure",
   },
 ]

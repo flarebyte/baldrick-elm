@@ -5,7 +5,7 @@ describe('makefile', () => {
   it('should provide a standard makefile', () => {
     const actual = makefile(libCoreProject);
     expect(actual).toMatchInlineSnapshot(`
-      ".PHONY: analyze assist beautify build diff doc generate github help install install-global md md-fix norm pre-generate preview-doc ready reset reset-generated test
+      ".PHONY: analyze assist beautify build diff doc generate github help install install-global md md-fix norm pre-generate preview-doc ready reset reset-generated test whisker-norm
 
       # Static code analysis
       analyze: 
@@ -70,7 +70,7 @@ describe('makefile', () => {
       	npx baldrick-dev-ts markdown fix -s .github/
 
       # Normalize the code structure
-      norm: 
+      norm: whisker-norm
       	npx baldrick-elm generate -f lib -ga 'mycompany' -ch 'Great Company' -cy 2020 -l BSD3 && make md-fix
 
       # Prepare scripts for code generation
@@ -96,7 +96,18 @@ describe('makefile', () => {
 
       # Unit testing
       test: 
-      	elm-test"
+      	elm-test
+
+      # Normalize the project with baldrick-whisker
+      whisker-norm: 
+      	mkdir -p .vscode
+      	mkdir -p .github/workflows
+      	mkdir -p .github/ISSUE_TEMPLATE
+      	npx baldrick-whisker@latest object --no-ext .vscode/baldrick.code-snippets.json github:flarebyte:baldrick-reserve:data/elm/snippet.yaml
+      	npx baldrick-whisker@latest object .github/ISSUE_TEMPLATE/bug_report.yaml github:flarebyte:baldrick-reserve:data/elm/bug-report.yaml
+      	npx baldrick-whisker@latest object .github/ISSUE_TEMPLATE/feature_request.yaml github:flarebyte:baldrick-reserve:data/elm/feature-request.yaml
+      	npx baldrick-whisker@latest object .github/workflows/main.yml github:flarebyte:baldrick-reserve:data/elm/workflow-main.yml
+      	npx baldrick-whisker@latest render .github/ISSUE_TEMPLATE/bug_report.yaml github:flarebyte:baldrick-reserve:template/code-of-conduct.handlebars CODE_OF_CONDUCT.md --config '{\\"githubAccount\\":\\"mycompany\\",\\"copyrightHolder\\":\\"Great Company\\"}'"
     `);
   });
 });

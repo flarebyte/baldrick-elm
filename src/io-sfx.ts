@@ -1,7 +1,5 @@
 import jetpack from 'fs-jetpack';
 import YAML from 'yaml';
-import { codeOfConductMd } from './markdown-code-of-conduct.js';
-import { contributingMd } from './markdown-contributing.js';
 import { toReadmeMd } from './markdown-readme.js';
 import { CoreProject, GenerateActionOpts, RunnerContext } from './model.js';
 import {
@@ -10,12 +8,7 @@ import {
   maintenanceMd,
 } from './markdown-maintenance.js';
 import { gitIgnoreConfig } from './conf-git-ignore.js';
-import { defaultGithubWorkflow } from './conf-workflow.js';
-import { pullRequestMd } from './markdown-pull-request.js';
-import { featureRequest } from './yaml-feature-request.js';
-import { bugReport } from './yaml-bug-report.js';
 import { editorConfig } from './conf-editor-config.js';
-import { vsCodeSnippets } from './conf-vscode-snippet.js';
 import { licenseMd } from './markdown-license.js';
 import { toTechnicalDesignMd } from './markdown-technical-design.js';
 import { commitMessage } from './commit-message.js';
@@ -66,14 +59,6 @@ const writeTechnicalDesign = async (
   await workspace.writeAsync('./TECHNICAL_DESIGN.md', newTechnicalDesign);
 };
 
-const writeCodeOfConducts = async (workspace: FSJetpack, proj: CoreProject) => {
-  await workspace.writeAsync('./CODE_OF_CONDUCT.md', codeOfConductMd(proj));
-};
-
-const writeContributing = async (workspace: FSJetpack) => {
-  await workspace.writeAsync('./CONTRIBUTING.md', contributingMd);
-};
-
 const writeMaintenance = async (workspace: FSJetpack, proj: CoreProject) => {
   await workspace.writeAsync('./MAINTENANCE.md', maintenanceMd(proj));
 };
@@ -93,46 +78,6 @@ const writeLicense = async (workspace: FSJetpack, proj: CoreProject) => {
 const writeMakefile = async (workspace: FSJetpack, proj: CoreProject) => {
   await workspace.writeAsync('./Makefile', makefile(proj));
 };
-const createGithubWorkflowDir = async (workspace: FSJetpack) => {
-  await workspace.dir('.github/workflows');
-  await workspace.dir('.github/ISSUE_TEMPLATE');
-};
-
-const writeWorkflowConfig = async (workspace: FSJetpack, core: CoreProject) => {
-  await workspace.writeAsync(
-    '.github/workflows/main.yml',
-    toYamlString(defaultGithubWorkflow(core))
-  );
-};
-
-const writePullRequestMd = async (workspace: FSJetpack) => {
-  await workspace.writeAsync('.github/pull_request_template.md', pullRequestMd);
-};
-
-const writeFeatureRequestYaml = async (workspace: FSJetpack) => {
-  await workspace.writeAsync(
-    '.github/ISSUE_TEMPLATE/feature_request.yaml',
-    toYamlString(featureRequest)
-  );
-};
-
-const writeBugReportYaml = async (workspace: FSJetpack) => {
-  await workspace.writeAsync(
-    '.github/ISSUE_TEMPLATE/bug_report.yaml',
-    toYamlString(bugReport)
-  );
-};
-
-const createVisualCodeDir = async (workspace: FSJetpack) => {
-  await workspace.dir('.vscode');
-};
-
-const writeVsCodeSnippets = async (workspace: FSJetpack) => {
-  await workspace.writeAsync(
-    '.vscode/baldrick.code-snippets',
-    toJsonString(vsCodeSnippets)
-  );
-};
 
 const createSourceDir = async (workspace: FSJetpack) => {
   await workspace.dir('src');
@@ -143,8 +88,8 @@ const appendCommitMessage = async (workspace: FSJetpack) => {
   await workspace.append('.message', commitMessage());
 };
 
-const writeZshAlias = async (workspace: FSJetpack) => {
-  await workspace.writeAsync('.aliases.zsh', getZshAliases());
+const writeZshAlias = async (workspace: FSJetpack, core: CoreProject) => {
+  await workspace.writeAsync('.aliases.zsh', getZshAliases(core));
 };
 
 const writeCommandHelp = async (workspace: FSJetpack, core: CoreProject) => {
@@ -164,22 +109,13 @@ export const updateAll = async (
     const workspace = createWorkspace(coreProject);
     await writeReadme(workspace, coreProject);
     await createSourceDir(workspace);
-    await writeCodeOfConducts(workspace, coreProject);
-    await writeContributing(workspace);
     await writeMaintenance(workspace, coreProject);
     await writeTechnicalDesign(workspace, coreProject);
     await writeGitIgnore(workspace);
     await writeEditorConfig(workspace);
     await writeLicense(workspace, coreProject);
     await writeMakefile(workspace, coreProject);
-    await createGithubWorkflowDir(workspace);
-    await writeWorkflowConfig(workspace, coreProject);
-    await writePullRequestMd(workspace);
-    await writeFeatureRequestYaml(workspace);
-    await writeBugReportYaml(workspace);
-    await createVisualCodeDir(workspace);
-    await writeVsCodeSnippets(workspace);
-    await writeZshAlias(workspace);
+    await writeZshAlias(workspace, coreProject);
     await writeCommandHelp(workspace, coreProject);
     await writeGlossary(workspace);
     await appendCommitMessage(workspace);
