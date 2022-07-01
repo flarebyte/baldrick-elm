@@ -9,7 +9,6 @@ import {
 import { licenseMd } from './markdown-license.js';
 import { toTechnicalDesignMd } from './markdown-technical-design.js';
 import { commitMessage } from './commit-message.js';
-import { glossaryMd } from './markdown-glossary.js';
 import { computeCoreProject } from './compute-core-project.js';
 import { makefile } from './makefile.js';
 import { FSJetpack } from 'fs-jetpack/types.js';
@@ -66,7 +65,7 @@ const writeMakefile = async (workspace: FSJetpack, proj: CoreProject) => {
 
 const createSourceDir = async (workspace: FSJetpack) => {
   await workspace.dir('src');
-  await workspace.dir('test');
+  await workspace.dir('tests');
 };
 
 const appendCommitMessage = async (workspace: FSJetpack) => {
@@ -79,10 +78,6 @@ const writeZshAlias = async (workspace: FSJetpack, core: CoreProject) => {
 
 const writeCommandHelp = async (workspace: FSJetpack, core: CoreProject) => {
   await workspace.writeAsync('commands.txt', getCommandHelp(core));
-};
-
-const writeGlossary = async (workspace: FSJetpack) => {
-  await workspace.writeAsync('GLOSSARY.md', glossaryMd());
 };
 
 export const updateAll = async (
@@ -100,7 +95,6 @@ export const updateAll = async (
     await writeMakefile(workspace, coreProject);
     await writeZshAlias(workspace, coreProject);
     await writeCommandHelp(workspace, coreProject);
-    await writeGlossary(workspace);
     await appendCommitMessage(workspace);
   } catch (error) {
     ctx.errTermFormatter({

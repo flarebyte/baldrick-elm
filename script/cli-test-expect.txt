@@ -5,6 +5,10 @@
 .github/pull_request_template.md
 .gitignore
 .vscode/baldrick.code-snippets
+.vscode/settings.json
+tests/elm-package.json
+script/data/project.json
+script/schema/project.schema.json
 CODE_OF_CONDUCT.md
 commands.txt
 CONTRIBUTING.md
