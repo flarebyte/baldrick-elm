@@ -1,5 +1,4 @@
 import jetpack from 'fs-jetpack';
-import YAML from 'yaml';
 import { toReadmeMd } from './markdown-readme.js';
 import { CoreProject, GenerateActionOpts, RunnerContext } from './model.js';
 import {
@@ -7,8 +6,6 @@ import {
   getZshAliases,
   maintenanceMd,
 } from './markdown-maintenance.js';
-import { gitIgnoreConfig } from './conf-git-ignore.js';
-import { editorConfig } from './conf-editor-config.js';
 import { licenseMd } from './markdown-license.js';
 import { toTechnicalDesignMd } from './markdown-technical-design.js';
 import { commitMessage } from './commit-message.js';
@@ -19,10 +16,6 @@ import { FSJetpack } from 'fs-jetpack/types.js';
 
 export const toJsonString = (value: object): string => {
   return JSON.stringify(value, undefined, 2);
-};
-
-export const toYamlString = (value: object): string => {
-  return YAML.stringify(value);
 };
 
 const createWorkspace = (core: CoreProject): FSJetpack =>
@@ -61,14 +54,6 @@ const writeTechnicalDesign = async (
 
 const writeMaintenance = async (workspace: FSJetpack, proj: CoreProject) => {
   await workspace.writeAsync('./MAINTENANCE.md', maintenanceMd(proj));
-};
-
-const writeGitIgnore = async (workspace: FSJetpack) => {
-  await workspace.writeAsync('.gitignore', gitIgnoreConfig);
-};
-
-const writeEditorConfig = async (workspace: FSJetpack) => {
-  await workspace.writeAsync('.editorconfig', editorConfig);
 };
 
 const writeLicense = async (workspace: FSJetpack, proj: CoreProject) => {
@@ -111,8 +96,6 @@ export const updateAll = async (
     await createSourceDir(workspace);
     await writeMaintenance(workspace, coreProject);
     await writeTechnicalDesign(workspace, coreProject);
-    await writeGitIgnore(workspace);
-    await writeEditorConfig(workspace);
     await writeLicense(workspace, coreProject);
     await writeMakefile(workspace, coreProject);
     await writeZshAlias(workspace, coreProject);
