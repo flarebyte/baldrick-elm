@@ -58,20 +58,21 @@ describe('makefile', () => {
       	yarn global add elm-upgrade
       	yarn global add elm-doc-preview
       	yarn global add elm-analyse
+      	yarn global add elm-test
 
       # Markdown check
       md: 
-      	npx baldrick-dev-ts markdown check
-      	npx baldrick-dev-ts markdown check -s .github/
+      	npx baldrick-dev-ts@latest markdown check
+      	npx baldrick-dev-ts@latest markdown check -s .github/
 
       # Markdown fix
       md-fix: 
-      	npx baldrick-dev-ts markdown fix
-      	npx baldrick-dev-ts markdown fix -s .github/
+      	npx baldrick-dev-ts@latest markdown fix
+      	npx baldrick-dev-ts@latest markdown fix -s .github/
 
       # Normalize the code structure
       norm: whisker-norm
-      	npx baldrick-elm generate -f lib -ga 'mycompany' -ch 'Great Company' -cy 2020 -l BSD3 && make md-fix
+      	npx baldrick-elm@latest generate -f lib -ga 'mycompany' -ch 'Great Company' -cy 2020 -l BSD3 && make md-fix
 
       # Prepare scripts for code generation
       pre-generate: 

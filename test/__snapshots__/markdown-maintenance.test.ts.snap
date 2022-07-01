@@ -397,8 +397,8 @@ Array [
   },
   Object {
     "makeLines": Array [
-      "npx baldrick-dev-ts markdown check",
-      "npx baldrick-dev-ts markdown check -s .github/",
+      "npx baldrick-dev-ts@latest markdown check",
+      "npx baldrick-dev-ts@latest markdown check -s .github/",
     ],
     "name": "md",
     "parentMakeTask": undefined,
@@ -406,8 +406,8 @@ Array [
   },
   Object {
     "makeLines": Array [
-      "npx baldrick-dev-ts markdown fix",
-      "npx baldrick-dev-ts markdown fix -s .github/",
+      "npx baldrick-dev-ts@latest markdown fix",
+      "npx baldrick-dev-ts@latest markdown fix -s .github/",
     ],
     "name": "md-fix",
     "parentMakeTask": undefined,
@@ -429,6 +429,7 @@ Array [
       "yarn global add elm-upgrade",
       "yarn global add elm-doc-preview",
       "yarn global add elm-analyse",
+      "yarn global add elm-test",
     ],
     "name": "install-global",
     "parentMakeTask": undefined,
@@ -534,7 +535,7 @@ Array [
   },
   Object {
     "makeLines": Array [
-      "npx baldrick-elm generate -f lib -ga 'mycompany' -ch 'Great Company' -cy 2020 -l BSD3 && make md-fix",
+      "npx baldrick-elm@latest generate -f lib -ga 'mycompany' -ch 'Great Company' -cy 2020 -l BSD3 && make md-fix",
     ],
     "name": "norm",
     "parentMakeTask": "whisker-norm",
