@@ -30,19 +30,12 @@ class `compute-core-project.ts`{
   - capitalize()
   +computeCoreProject()
 }
-class `conf-editor-config.ts`
-class `conf-git-ignore.ts`
-class `conf-vscode-snippet.ts`{
-  +vsCodeSnippets()
-}
-class `conf-workflow.ts`{
-  +defaultGithubWorkflow()
-}
 class `dev-tasks.ts`{
   +analyzeCmd()
   +testCmd()
   - mdCmd()
   - mdFixCmd()
+  - whiskerNormCmd()
   +normCmd()
   +devCommands()
 }
@@ -54,31 +47,18 @@ class `feature-helper.ts`{
 class `index.ts`
 class `io-sfx.ts`{
   +toJsonString()
-  +toYamlString()
   - createWorkspace()
   - readReadme()
   - writeReadme()
   - readTechnicalDesign()
   - writeTechnicalDesign()
-  - writeCodeOfConducts()
-  - writeContributing()
   - writeMaintenance()
-  - writeGitIgnore()
-  - writeEditorConfig()
   - writeLicense()
   - writeMakefile()
-  - createGithubWorkflowDir()
-  - writeWorkflowConfig()
-  - writePullRequestMd()
-  - writeFeatureRequestYaml()
-  - writeBugReportYaml()
-  - createVisualCodeDir()
-  - writeVsCodeSnippets()
   - createSourceDir()
   - appendCommitMessage()
   - writeZshAlias()
   - writeCommandHelp()
-  - writeGlossary()
   +updateAll()
 }
 class `makefile.ts`{
@@ -87,14 +67,6 @@ class `makefile.ts`{
   - toMakePhonyHeader()
   - make()
   +makefile()
-}
-class `markdown-code-of-conduct.ts`{
-  +codeOfConductMd()
-}
-class `markdown-contributing.ts`
-class `markdown-glossary.ts`{
-  - glossaryDefToString()
-  +glossaryMd()
 }
 class `markdown-license.ts`{
   - copyrightRangeIfAny()
@@ -109,7 +81,6 @@ class `markdown-maintenance.ts`{
   +getZshAliases()
   +getCommandHelp()
 }
-class `markdown-pull-request.ts`
 class `markdown-readme.ts`{
   - capitalize()
   - libBadges()
@@ -159,8 +130,6 @@ class `utils.ts`{
   +findQuote()
 }
 class `version.ts`
-class `yaml-bug-report.ts`
-class `yaml-feature-request.ts`
 class `./index.js`{
   +commanding()
 }
@@ -179,12 +148,9 @@ class `./model.js`{
   +Badge()
   +CoreProject()
   +MakefileCommand()
-  +minimumNodeVersion()
   +RunnerContext()
   +GenerateActionOpts()
   +SupportedFeature()
-  +VsCodeSnippetObj()
-  +VsCodeSnippet()
   +GenerateRawOpts()
   +GenerateAction()
   +CmdOption()
@@ -222,15 +188,6 @@ class `./commanding.js`{
 class `fs-jetpack`{
   +jetpack()
 }
-class `yaml`{
-  +YAML()
-}
-class `./markdown-code-of-conduct.js`{
-  +codeOfConductMd()
-}
-class `./markdown-contributing.js`{
-  +contributingMd()
-}
 class `./markdown-readme.js`{
   +toReadmeMd()
 }
@@ -240,27 +197,6 @@ class `./markdown-maintenance.js`{
   +getZshAliases()
   +getCommandHelp()
 }
-class `./conf-git-ignore.js`{
-  +gitIgnoreConfig()
-}
-class `./conf-workflow.js`{
-  +defaultGithubWorkflow()
-}
-class `./markdown-pull-request.js`{
-  +pullRequestMd()
-}
-class `./yaml-feature-request.js`{
-  +featureRequest()
-}
-class `./yaml-bug-report.js`{
-  +bugReport()
-}
-class `./conf-editor-config.js`{
-  +editorConfig()
-}
-class `./conf-vscode-snippet.js`{
-  +vsCodeSnippets()
-}
 class `./markdown-license.js`{
   +licenseMd()
 }
@@ -269,9 +205,6 @@ class `./markdown-technical-design.js`{
 }
 class `./commit-message.js`{
   +commitMessage()
-}
-class `./markdown-glossary.js`{
-  +glossaryMd()
 }
 class `./compute-core-project.js`{
   +computeCoreProject()
@@ -320,38 +253,23 @@ class `./utils.js`{
 `commit-message.ts`-->`./version.js`
 `compute-core-project.ts`-->`node:path`
 `compute-core-project.ts`-->`./model.js`
-`conf-vscode-snippet.ts`-->`./model.js`
-`conf-workflow.ts`-->`./model.js`
 `dev-tasks.ts`-->`./commanding-data.js`
 `dev-tasks.ts`-->`./model.js`
 `feature-helper.ts`-->`./model.js`
 `index.ts`-->`./commanding-action.js`
 `index.ts`-->`./commanding.js`
 `io-sfx.ts`-->`fs-jetpack`
-`io-sfx.ts`-->`yaml`
-`io-sfx.ts`-->`./markdown-code-of-conduct.js`
-`io-sfx.ts`-->`./markdown-contributing.js`
 `io-sfx.ts`-->`./markdown-readme.js`
 `io-sfx.ts`-->`./model.js`
 `io-sfx.ts`-->`./markdown-maintenance.js`
-`io-sfx.ts`-->`./conf-git-ignore.js`
-`io-sfx.ts`-->`./conf-workflow.js`
-`io-sfx.ts`-->`./markdown-pull-request.js`
-`io-sfx.ts`-->`./yaml-feature-request.js`
-`io-sfx.ts`-->`./yaml-bug-report.js`
-`io-sfx.ts`-->`./conf-editor-config.js`
-`io-sfx.ts`-->`./conf-vscode-snippet.js`
 `io-sfx.ts`-->`./markdown-license.js`
 `io-sfx.ts`-->`./markdown-technical-design.js`
 `io-sfx.ts`-->`./commit-message.js`
-`io-sfx.ts`-->`./markdown-glossary.js`
 `io-sfx.ts`-->`./compute-core-project.js`
 `io-sfx.ts`-->`./makefile.js`
 `io-sfx.ts`-->`fs-jetpack/types.js`
 `makefile.ts`-->`./markdown-maintenance.js`
 `makefile.ts`-->`./model.js`
-`markdown-code-of-conduct.ts`-->`./model.js`
-`markdown-contributing.ts`-->`./model.js`
 `markdown-license.ts`-->`./model.js`
 `markdown-maintenance.ts`-->`markdown-table`
 `markdown-maintenance.ts`-->`./dev-tasks.js`
