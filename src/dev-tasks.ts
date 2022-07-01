@@ -199,6 +199,7 @@ const installGloballyCmd: MdCommand = {
     'yarn global add elm-upgrade',
     'yarn global add elm-doc-preview',
     'yarn global add elm-analyse',
+    'yarn global add elm-test',
   ],
 };
 const installCmd: MdCommand = {
@@ -281,8 +282,8 @@ const mdCmd = (): MdCommand => ({
   partOf: makefilePackage,
   examples: [],
   makeLines: [
-    'npx baldrick-dev-ts markdown check',
-    'npx baldrick-dev-ts markdown check -s .github/',
+    'npx baldrick-dev-ts@latest markdown check',
+    'npx baldrick-dev-ts@latest markdown check -s .github/',
   ],
 });
 const mdFixCmd = (): MdCommand => ({
@@ -296,8 +297,8 @@ const mdFixCmd = (): MdCommand => ({
   partOf: makefilePackage,
   examples: [],
   makeLines: [
-    'npx baldrick-dev-ts markdown fix',
-    'npx baldrick-dev-ts markdown fix -s .github/',
+    'npx baldrick-dev-ts@latest markdown fix',
+    'npx baldrick-dev-ts@latest markdown fix -s .github/',
   ],
 });
 const helpCmd: MdCommand = {
@@ -366,7 +367,7 @@ const whiskerNormCmd = (project: CoreProject): MdCommand => {
 const og = cmdOptionsGenerator;
 export const normCmd = (project: CoreProject): MdCommand => {
   const npmMandatoryScript = [
-    'npx baldrick-elm generate',
+    'npx baldrick-elm@latest generate',
     `-${og.feature.shortFlag}`,
     project.feature.join(' '),
     `-${og.githubAccount.shortFlag}`,
