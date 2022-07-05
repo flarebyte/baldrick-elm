@@ -26,6 +26,20 @@ scaffolding
 -   [Contributors](https://github.com/flarebyte/baldrick-elm/graphs/contributors)
 -   [Dependencies](https://github.com/flarebyte/baldrick-elm/network/dependencies)
 
+## Usage
+
+To generate basic structure files:
+
+```bash
+baldrick-elm generate -f lib -ga 'mygithub' -ch 'MyCompany' -cy 2018 -l BSD3
+```
+
+Afterwards, you will need to run:
+
+```bash
+make norm
+```
+
 ## Installation
 
 This package is [ESM

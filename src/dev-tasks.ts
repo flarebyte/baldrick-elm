@@ -347,7 +347,6 @@ const whiskerNormCmd = (project: CoreProject): MdCommand => {
       'mkdir -p script/schema',
       'mkdir -p script/template',
       'test -f "elm.json" || npx baldrick-whisker@latest object elm.json github:flarebyte:baldrick-reserve:data/elm/src-elm.json',
-      'test -f "tests/elm-package.json" || npx baldrick-whisker@latest object tests/elm-package.json github:flarebyte:baldrick-reserve:data/elm/test-elm.json',
       'test -f ".vscode/settings.json" || npx baldrick-whisker@latest object .vscode/settings.json github:flarebyte:baldrick-reserve:data/elm/vscode-settings.json',
       'test -f "script/data/project.json" || npx baldrick-whisker@latest object script/data/project.json github:flarebyte:baldrick-reserve:data/elm/project.json',
       'npx baldrick-whisker@latest object --no-ext .vscode/baldrick.code-snippets.json github:flarebyte:baldrick-reserve:data/elm/snippet.yaml',
