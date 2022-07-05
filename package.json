@@ -70,7 +70,7 @@
   "devDependencies": {
     "baldrick-dev-ts": "^0.15.0",
     "baldrick-tsconfig-es2020": "^0.9.0",
-    "ts-node": "^10.8.1",
+    "ts-node": "10.8.2",
     "typescript": "^4.7.4"
   },
   "peerDependencies": {}
