@@ -11,6 +11,7 @@ script/schema/project.schema.json
 CODE_OF_CONDUCT.md
 commands.txt
 CONTRIBUTING.md
+DECISIONS.md
 elm.json
 GLOSSARY.md
 LICENSE
