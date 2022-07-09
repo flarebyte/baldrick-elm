@@ -3,7 +3,7 @@
 exports[`Readme documentation Updates README.md with standardized chapters 1`] = `
 "# Project123
 
-![Status of direct dependencies](https://reiner-dolp.github.io/elm-badges/mycompany/project123/dependencies.svg) ![License of the package](https://reiner-dolp.github.io/elm-badges/mycompany/project123/license.svg) ![Latest version of the package](https://reiner-dolp.github.io/elm-badges/mycompany/project123/version.svg)
+![Status of direct dependencies](https://reiner-dolp.github.io/elm-badges/mycompany/project123/dependencies.svg) ![License of the package](https://reiner-dolp.github.io/elm-badges/mycompany/project123/license.svg) ![Latest version of the package](https://img.shields.io/elm-package/v/mycompany/project123)
 
 > Scratch Book is an annotation library written in Typescript that makes it easy to write documentation in a decentralized fashion.
 

@@ -18,7 +18,7 @@ const libBadges = (core: CoreProject): Badge[] => {
     },
     {
       text: 'Latest version of the package',
-      imageUrl: `https://reiner-dolp.github.io/elm-badges/${core.githubAccount}/${core.name}/version.svg`,
+      imageUrl: `https://img.shields.io/elm-package/v/${core.githubAccount}/${core.name}`,
       position: 'top',
     },
   ];

@@ -360,6 +360,7 @@ const whiskerNormCmd = (project: CoreProject): MdCommand => {
       `npx baldrick-whisker@latest render elm.json github:flarebyte:baldrick-reserve:template/elm/contributing.hbs CONTRIBUTING.md`,
       `npx baldrick-whisker@latest render elm.json github:flarebyte:baldrick-reserve:template/elm/pull-request-template.hbs .github/pull_request_template.md`,
       `npx baldrick-whisker@latest render github:flarebyte:baldrick-reserve:data/glossary.yaml github:flarebyte:baldrick-reserve:template/glossary.hbs GLOSSARY.md`,
+      `test -f "DECISIONS.md" || npx baldrick-whisker@latest render elm.json github:flarebyte:baldrick-reserve:template/decisions.hbs DECISIONS.md`,
     ],
   };
 };

@@ -23,7 +23,16 @@ const codeStructure: MdSection = {
 
 const docAndLinks: MdSection = {
   title: 'Useful links',
-  body: [' - Introduction to [Elm](https://guide.elm-lang.org/)'].join('\n\n'),
+  body: [
+    ' - Introduction to [Elm](https://guide.elm-lang.org/)',
+    ' - [Awesome Elm](https://github.com/sporto/awesome-elm)',
+    ' - [Elm patterns](https://sporto.github.io/elm-patterns/index.html)',
+    ' - [Elm cheat sheet](https://github.com/izdi/elm-cheat-sheet)',
+    ' - [Search Elm package](https://package.elm-lang.org/)',
+    ' - [Search Elm catalog](https://korban.net/elm/catalog/)',
+    ' - [Search Elm by signature](https://klaftertief.github.io/elm-search/)',
+    ' - [HTML to Elm](https://html-to-elm.com/)',
+  ].join('\n\n'),
 };
 
 export const toTechnicalDesignMd = (
