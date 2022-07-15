@@ -6,7 +6,8 @@
 .gitignore
 .vscode/baldrick.code-snippets
 .vscode/settings.json
-script/data/project.json
+script/normalize.sh
+script/data/project.yaml
 script/schema/project.schema.json
 CODE_OF_CONDUCT.md
 commands.txt
