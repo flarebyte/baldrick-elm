@@ -92,7 +92,11 @@ const beautifyCmd: MdCommand = {
   run: 'make beautify',
   partOf: makefilePackage,
   examples: [],
-  makeLines: ['elm-format src/ --yes', 'elm-format tests/ --yes'],
+  makeLines: [
+    'elm-format src/ --yes',
+    'elm-format tests/ --yes',
+    'test -d demo/ && elm-format demo/ --yes',
+  ],
 };
 const diffCmd: MdCommand = {
   name: 'diff',
@@ -128,8 +132,8 @@ const preGenerateCmd: MdCommand = {
   partOf: zshPackage,
   examples: [],
   makeLines: [
-    'npx baldrick-whisker@latest render script/data/project.json script/template/generate.hbs script/generate.sh',
-    'npx baldrick-whisker@latest render script/data/project.json script/template/assist.hbs script/assist.sh',
+    'npx baldrick-whisker@latest render script/data/project.yaml script/template/generate.hbs script/generate.sh',
+    'npx baldrick-whisker@latest render script/data/project.yaml script/template/assist.hbs script/assist.sh',
   ],
 };
 const generateCmd: MdCommand = {

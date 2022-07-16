@@ -382,6 +382,7 @@ Array [
     "makeLines": Array [
       "elm-format src/ --yes",
       "elm-format tests/ --yes",
+      "test -d demo/ && elm-format demo/ --yes",
     ],
     "name": "beautify",
     "parentMakeTask": undefined,
@@ -476,8 +477,8 @@ Array [
   },
   Object {
     "makeLines": Array [
-      "npx baldrick-whisker@latest render script/data/project.json script/template/generate.hbs script/generate.sh",
-      "npx baldrick-whisker@latest render script/data/project.json script/template/assist.hbs script/assist.sh",
+      "npx baldrick-whisker@latest render script/data/project.yaml script/template/generate.hbs script/generate.sh",
+      "npx baldrick-whisker@latest render script/data/project.yaml script/template/assist.hbs script/assist.sh",
     ],
     "name": "pre-generate",
     "parentMakeTask": undefined,

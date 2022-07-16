@@ -46,6 +46,9 @@ yarn add scratchbook
 * [Glossary](GLOSSARY.md)
 * [Vocabulary used in the code base](CODE_VOCABULARY.md)
 * [Architectural Decision Records](DECISIONS.md)
+* [Internationalization](INTERNATIONALIZATION.md)
+* [Accessibility](ACCESSIBILITY.md)
+* [Code generation](CODE_GENERATION.md)
 * [Contributors](https://github.com/mycompany/project123/graphs/contributors)
 * [Dependencies](https://github.com/mycompany/project123/network/dependencies)
 
