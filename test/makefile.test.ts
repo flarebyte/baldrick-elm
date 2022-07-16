@@ -19,6 +19,7 @@ describe('makefile', () => {
       beautify: 
       	elm-format src/ --yes
       	elm-format tests/ --yes
+      	test -d demo/ && elm-format demo/ --yes
 
       # Build the library
       build: test beautify doc
@@ -77,8 +78,8 @@ describe('makefile', () => {
 
       # Prepare scripts for code generation
       pre-generate: 
-      	npx baldrick-whisker@latest render script/data/project.json script/template/generate.hbs script/generate.sh
-      	npx baldrick-whisker@latest render script/data/project.json script/template/assist.hbs script/assist.sh
+      	npx baldrick-whisker@latest render script/data/project.yaml script/template/generate.hbs script/generate.sh
+      	npx baldrick-whisker@latest render script/data/project.yaml script/template/assist.hbs script/assist.sh
 
       # Preview the documentation
       preview-doc: 
