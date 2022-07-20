@@ -371,6 +371,7 @@ Array [
   Object {
     "makeLines": Array [
       "npx baldrick-whisker@latest render script/data/project.yaml script/template/build.hbs script/build.sh",
+      "sh script/build.sh",
     ],
     "name": "build",
     "parentMakeTask": "test beautify doc",
@@ -529,6 +530,7 @@ Array [
   Object {
     "makeLines": Array [
       "npx baldrick-whisker@latest render script/data/project.yaml script/template/big-test.hbs script/big-test.sh",
+      "sh script/big-test.sh",
     ],
     "name": "big-test",
     "parentMakeTask": "test",
@@ -537,6 +539,7 @@ Array [
   Object {
     "makeLines": Array [
       "npx baldrick-whisker@latest render script/data/project.yaml script/template/pull.hbs script/pull.sh",
+      "sh script/pull.sh",
     ],
     "name": "pull",
     "parentMakeTask": undefined,

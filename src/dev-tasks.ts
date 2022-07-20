@@ -229,6 +229,7 @@ export const buildCmd: MdCommand = {
   examples: [],
   makeLines: [
     'npx baldrick-whisker@latest render script/data/project.yaml script/template/build.hbs script/build.sh',
+    'sh script/build.sh',
   ],
   parentMakeTask: 'test beautify doc',
 };
@@ -243,6 +244,7 @@ export const bigTestCmd: MdCommand = {
   examples: [],
   makeLines: [
     'npx baldrick-whisker@latest render script/data/project.yaml script/template/big-test.hbs script/big-test.sh',
+    'sh script/big-test.sh',
   ],
   parentMakeTask: 'test',
 };
@@ -258,6 +260,7 @@ export const pullCmd: MdCommand = {
   examples: [],
   makeLines: [
     'npx baldrick-whisker@latest render script/data/project.yaml script/template/pull.hbs script/pull.sh',
+    'sh script/pull.sh',
   ],
 };
 export const docCmd: MdCommand = {
