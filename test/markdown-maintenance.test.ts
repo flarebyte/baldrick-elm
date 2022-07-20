@@ -29,6 +29,7 @@ describe('Maintenance documentation', () => {
       make analyze          Find problems in Elm code
       make assist           Generate some of the boilerplate code that has to be manually added
       make beautify         Formats Elm source code according to a standard set of rules based on the official Elm Style Guide
+      make big-test         Run browser tests
       make build            Transpile all the Elm source code to javascript
       make diff             See what changed in the package between versions
       make doc              Generate the markdown documentation for the Elm project
@@ -42,6 +43,7 @@ describe('Maintenance documentation', () => {
       make norm             Normalize the code structure using baldrick (global version)
       make pre-generate     Generate the scripts used for code generation
       make preview-doc      Generate the markdown documentation for the Elm project
+      make pull             Run some code that we should do just before a release
       make ready            Run a sequence of commands to check that the library is ready to be published
       make reset            Delete the dist and report folder
       make reset-generated  Delete the generated folder

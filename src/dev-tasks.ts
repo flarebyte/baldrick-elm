@@ -150,6 +150,7 @@ const generateCmd: MdCommand = {
     'sh script/generate.sh',
     'make beautify',
     'make test',
+    'make md-fix',
   ],
   parentMakeTask: 'reset-generated pre-generate',
 };
@@ -226,8 +227,38 @@ export const buildCmd: MdCommand = {
   run: 'make build',
   partOf: makefilePackage,
   examples: [],
-  makeLines: [],
+  makeLines: [
+    'npx baldrick-whisker@latest render script/data/project.yaml script/template/build.hbs script/build.sh',
+  ],
   parentMakeTask: 'test beautify doc',
+};
+export const bigTestCmd: MdCommand = {
+  name: 'big-test',
+  title: 'Run the bigger tests suite',
+  description: 'Run browser tests',
+  motivation: 'Run longer tests using different browsers',
+  context: 'After building',
+  run: 'make big-test',
+  partOf: makefilePackage,
+  examples: [],
+  makeLines: [
+    'npx baldrick-whisker@latest render script/data/project.yaml script/template/big-test.hbs script/big-test.sh',
+  ],
+  parentMakeTask: 'test',
+};
+
+export const pullCmd: MdCommand = {
+  name: 'pull',
+  title: 'Prepare for pull request',
+  description: 'Run some code that we should do just before a release',
+  motivation: 'Streamline the release',
+  context: 'Before release',
+  run: 'make pull',
+  partOf: makefilePackage,
+  examples: [],
+  makeLines: [
+    'npx baldrick-whisker@latest render script/data/project.yaml script/template/pull.hbs script/pull.sh',
+  ],
 };
 export const docCmd: MdCommand = {
   name: 'doc',
@@ -422,6 +453,8 @@ export const devCommands = (project: CoreProject): MdCommand[] => [
   resetGeneratedCmd,
   preGenerateCmd,
   generateCmd,
+  bigTestCmd,
+  pullCmd,
   assistCmd,
   whiskerNormCmd(project),
 ];
