@@ -295,6 +295,34 @@ __From package:__ [zsh](https://www.zsh.org/) of [brew](https://docs.brew.sh/) :
 
 ---
 
+### Run the bigger tests suite
+
+> Run browser tests
+
+__Motivation:__ Run longer tests using different browsers
+
+__When to use it:__ After building
+
+__Run:__ \`\`\`make big-test\`\`\`
+
+__From package:__ [makefile](https://opensource.com/article/18/8/what-how-makefile) of [brew](https://docs.brew.sh/) :  Build management
+
+---
+
+### Prepare for pull request
+
+> Run some code that we should do just before a release
+
+__Motivation:__ Streamline the release
+
+__When to use it:__ Before release
+
+__Run:__ \`\`\`make pull\`\`\`
+
+__From package:__ [makefile](https://opensource.com/article/18/8/what-how-makefile) of [brew](https://docs.brew.sh/) :  Build management
+
+---
+
 ### Generate some code in the console
 
 > Generate some of the boilerplate code that has to be manually added
@@ -341,7 +369,9 @@ __From package:__ [baldrick-elm](https://github.com/flarebyte/baldrick-elm) of [
 exports[`Maintenance documentation produces a list of npm scripts 1`] = `
 Array [
   Object {
-    "makeLines": Array [],
+    "makeLines": Array [
+      "npx baldrick-whisker@latest render script/data/project.yaml script/template/build.hbs script/build.sh",
+    ],
     "name": "build",
     "parentMakeTask": "test beautify doc",
     "title": "Build the library",
@@ -490,10 +520,27 @@ Array [
       "sh script/generate.sh",
       "make beautify",
       "make test",
+      "make md-fix",
     ],
     "name": "generate",
     "parentMakeTask": "reset-generated pre-generate",
     "title": "Generate some Elm Code",
+  },
+  Object {
+    "makeLines": Array [
+      "npx baldrick-whisker@latest render script/data/project.yaml script/template/big-test.hbs script/big-test.sh",
+    ],
+    "name": "big-test",
+    "parentMakeTask": "test",
+    "title": "Run the bigger tests suite",
+  },
+  Object {
+    "makeLines": Array [
+      "npx baldrick-whisker@latest render script/data/project.yaml script/template/pull.hbs script/pull.sh",
+    ],
+    "name": "pull",
+    "parentMakeTask": undefined,
+    "title": "Prepare for pull request",
   },
   Object {
     "makeLines": Array [

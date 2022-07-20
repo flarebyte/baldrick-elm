@@ -51,6 +51,7 @@ const docAndLinks = (core: CoreProject): MdSection => ({
     '* [Architectural Decision Records](DECISIONS.md)',
     '* [Internationalization](INTERNATIONALIZATION.md)',
     '* [Accessibility](ACCESSIBILITY.md)',
+    '* [Description of the code base](CODE_BASE.md)',
     '* [Code generation](CODE_GENERATION.md)',
     `* [Contributors](https://github.com/${core.githubAccount}/${core.name}/graphs/contributors)`,
     `* [Dependencies](https://github.com/${core.githubAccount}/${core.name}/network/dependencies)`,
