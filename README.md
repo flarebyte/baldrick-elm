@@ -8,10 +8,22 @@ status](https://github.com/flarebyte/baldrick-elm/actions/workflows/main.yml/bad
 ![node-current](https://img.shields.io/node/v/baldrick-elm)
 ![NPM](https://img.shields.io/npm/l/baldrick-elm)
 
->
 
-Baldrick-elm is a Elm assistant with a cunning plan that can be used for
-scaffolding
+⚠️ Deprecated: baldrick-elm is no longer maintained.
+
+Please use the in-house replacement instead:
+
+- baldrick-broth (orchestrator): https://github.com/flarebyte/baldrick-broth
+- Templates source: https://github.com/flarebyte/baldrick-reserve
+
+Why this change
+
+- Decouple template changes from CLI releases: templates live in baldrick-reserve so you do not need a new baldrick release for every template tweak.
+- Easier local iteration: keep project-specific behavior local during development, then promote stable templates to baldrick-reserve when ready.
+
+Legacy description
+
+> Baldrick-elm is an Elm scaffolding assistant used to generate and normalize project files.
 
 ## Documentation and links
 
@@ -23,10 +35,11 @@ scaffolding
 -   [Diagram for the code base](INTERNAL.md)
 -   [Vocabulary used in the code base](CODE_VOCABULARY.md)
 -   [Architectural Decision Records](DECISIONS.md)
+-   [Deprecation Review](DEPRECATION_REVIEW.md)
 -   [Contributors](https://github.com/flarebyte/baldrick-elm/graphs/contributors)
 -   [Dependencies](https://github.com/flarebyte/baldrick-elm/network/dependencies)
 
-## Usage
+## Legacy Usage
 
 To generate basic structure files:
 
@@ -40,7 +53,7 @@ Afterwards, you will need to run:
 make norm
 ```
 
-## Installation
+## Legacy Installation
 
 This package is [ESM
 only](https://blog.sindresorhus.com/get-ready-for-esm-aa53530b3f77).
@@ -56,7 +69,7 @@ Or alternatively run it:
 npx baldrick-elm --help
 ```
 
-If you want to tun the latest version from github. Mostly useful for dev:
+If you want to run the latest version from GitHub (for legacy maintenance only):
 
 ```bash
 git clone git@github.com:flarebyte/baldrick-elm.git
