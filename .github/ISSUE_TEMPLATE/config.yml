@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Project deprecated — use baldrick-broth
+    url: https://github.com/flarebyte/baldrick-broth
+    about: This repository is deprecated. Please use baldrick-broth along with templates in baldrick-reserve.
+  - name: Templates — baldrick-reserve
+    url: https://github.com/flarebyte/baldrick-reserve
+    about: Source templates used by the replacement workflow.
